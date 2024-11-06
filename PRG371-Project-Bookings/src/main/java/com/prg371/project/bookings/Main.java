@@ -8,7 +8,7 @@ package com.prg371.project.bookings;
  *
  * @author User
  */
-public class PRG371ProjectBookings {
+public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
