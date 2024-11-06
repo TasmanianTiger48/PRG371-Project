@@ -8,6 +8,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
-        <exec.mainClass>com.prg371.project.bookings.PRG371ProjectBookings</exec.mainClass>
+        <exec.mainClass>com.prg371.project.bookings.Main</exec.mainClass>
     </properties>
 </project>
