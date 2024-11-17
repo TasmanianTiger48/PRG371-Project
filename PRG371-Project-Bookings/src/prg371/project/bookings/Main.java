@@ -5,6 +5,7 @@
 package prg371.project.bookings;
 import java.awt.EventQueue;
 import prg371.project.bookings.business.enums.UserTypes;
+import prg371.project.bookings.business.models.UserModel;
 import prg371.project.bookings.dataaccess.ConnectionProvider;
 import prg371.project.bookings.presentation.frames.UserLoginFrame;
 /**
@@ -14,7 +15,7 @@ import prg371.project.bookings.presentation.frames.UserLoginFrame;
 public class Main {
     
     public static ConnectionProvider db = new ConnectionProvider();
-    public static UserTypes userType;        
+    public static UserModel currentUser = null;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

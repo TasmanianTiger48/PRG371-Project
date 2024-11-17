@@ -32,7 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         
-        if (Main.userType == UserTypes.Admin) {
+        if (Main.currentUser.getType() == UserTypes.Admin) {
             loadEventTypes();
             loadMenuItems();
             loadEventTypesLinkedMenuItems();
@@ -129,6 +129,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblEventAmount.setText("Amount:");
 
+        tblEventTypes.setAutoCreateRowSorter(true);
         tblEventTypes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -269,6 +270,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        tblMenuItems.setAutoCreateRowSorter(true);
         tblMenuItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -406,6 +408,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        tblEventTypeMenuItems.setAutoCreateRowSorter(true);
         tblEventTypeMenuItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},

@@ -185,7 +185,7 @@ public class EventTypeRepository {
     }
     
     public Integer getLinkedMenuItemIdByIds(int eventTypeId, int menuItemId) {
-        String query = "SELECT Id FROM EventTypes WHERE EventTypeId = ? AND MenuItemId = ?";
+        String query = "SELECT Id FROM EventTypeMenuItems WHERE EventTypeId = ? AND MenuItemId = ?";
 
         try (Connection connection = ConnectionProvider.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {

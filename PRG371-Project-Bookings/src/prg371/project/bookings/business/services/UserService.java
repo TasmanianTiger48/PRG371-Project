@@ -29,14 +29,14 @@ public class UserService {
     public boolean login(String email, String password) {
         UserModel user = userRepository.getUserByEmail(email);
         if (user != null && user.checkPassword(password)) {
-            Main.userType = user.getType();
+            Main.currentUser = user;
             return true;
         }
         return false;
     }
     
     public boolean logout() {
-        Main.userType = null;
+        Main.currentUser = null;
         return true;
     }
 }

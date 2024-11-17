@@ -1,0 +1,115 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package prg371.project.bookings.presentation.controllers;
+
+import java.time.LocalDate;
+import java.util.List;
+import javax.swing.JOptionPane;
+import prg371.project.bookings.business.enums.BookingStatusTypes;
+import prg371.project.bookings.business.models.BookingModel;
+import prg371.project.bookings.business.services.BookingService;
+
+/**
+ *
+ * @author User
+ */
+public class BookingController {
+    
+    private final BookingService bookingService;
+    
+    public BookingController() {
+        bookingService = new BookingService();
+    }
+    
+    public List<BookingModel> loadBookings() {
+        return bookingService.getBookings();
+    }
+    
+    public Boolean addBooking(int id, int eventTypeId, String decorateOptInString, LocalDate eventDate, 
+        String venueAddress, int adultCount, int childCount, int status, String priceString, int userId
+    ) {
+        try {
+            return addBooking(eventTypeId, Boolean.parseBoolean(decorateOptInString), 
+                eventDate, venueAddress, adultCount, childCount, BookingStatusTypes.fromKey(status),
+                Double.parseDouble(priceString), userId);
+        }
+        catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Please enter valid numeric values for adults and children");
+            return false;
+        }
+    }
+    
+    public Boolean addBooking(int eventTypeId, boolean decorateOptIn,
+        LocalDate eventDate, String venueAddress, int adults, int children,
+        BookingStatusTypes status, Double price, int userId
+    ) {
+        BookingModel booking = new BookingModel(0, eventTypeId, decorateOptIn,
+            eventDate, venueAddress, adults, children,
+            status, null, null, userId, price);
+
+        String message = booking.validate();
+
+        if (message != null) {
+            JOptionPane.showMessageDialog(null, message);
+            return false;
+        }
+
+        if (bookingService.updateBooking(booking)) {
+            JOptionPane.showMessageDialog(null, "Booking created successfully");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to create booking");
+            return false;
+        }
+    }
+    
+    public Boolean updateBooking(int id, int eventTypeId, String decorateOptInString, LocalDate eventDate, 
+        String venueAddress, int adultCount, int childCount, int status, String priceString, int userId
+    ) {
+        try {
+            return updateBooking(id, eventTypeId, Boolean.parseBoolean(decorateOptInString), 
+                eventDate, venueAddress, adultCount, childCount, BookingStatusTypes.fromKey(status),
+                Double.parseDouble(priceString), userId);
+        }
+        catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Please enter valid numeric values for adults and children");
+            return false;
+        }
+    }
+
+    public Boolean updateBooking(int id, int eventTypeId, boolean decorateOptIn,
+        LocalDate eventDate, String venueAddress, int adults, int children,
+        BookingStatusTypes status, Double price, int userId
+    ) {
+        BookingModel booking = new BookingModel(id, eventTypeId, decorateOptIn,
+            eventDate, venueAddress, adults, children,
+            status, null, null, userId, price);
+
+        String message = booking.validate();
+
+        if (message != null) {
+            JOptionPane.showMessageDialog(null, message);
+            return false;
+        }
+
+        if (bookingService.updateBooking(booking)) {
+            JOptionPane.showMessageDialog(null, "Booking updated successfully");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to update booking");
+            return false;
+        }
+    }
+    
+    public Boolean deleteBooking(int id) {
+        if (bookingService.removeBooking(id)) {
+            JOptionPane.showMessageDialog(null, "Booking cancelled");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to cancel Booking");
+            return false;
+        }
+    }
+}
