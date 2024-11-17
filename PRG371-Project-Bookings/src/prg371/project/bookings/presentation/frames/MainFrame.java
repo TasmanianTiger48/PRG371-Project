@@ -41,7 +41,9 @@ public class MainFrame extends javax.swing.JFrame {
                 cmbMenuItemCategoryType.addItem(type.getDescription());
             }
         } else {
-            MainTabs.getComponentAt(1).setVisible(false);
+            MainTabs.remove(tabEventTypes);
+            MainTabs.remove(tabMenuItems);
+            MainTabs.remove(tabLinkMenuItemsToEventTypes);
         }
     }
 
@@ -63,6 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
         buttonGroup7 = new javax.swing.ButtonGroup();
         buttonGroup8 = new javax.swing.ButtonGroup();
         MainTabs = new javax.swing.JTabbedPane();
+        tabBookings = new javax.swing.JPanel();
         tabEventTypes = new javax.swing.JPanel();
         lblEventDescription = new javax.swing.JLabel();
         lblEventAmount = new javax.swing.JLabel();
@@ -89,7 +92,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblMenuItemPrice = new javax.swing.JLabel();
         cmbMenuItemCategoryType = new javax.swing.JComboBox<>();
         txtMenuItemPrice = new javax.swing.JTextField();
-        TabLinkMenuItemsToEventTypes = new javax.swing.JPanel();
+        tabLinkMenuItemsToEventTypes = new javax.swing.JPanel();
         lblLinkEvent = new javax.swing.JLabel();
         cmbLinkEvent = new javax.swing.JComboBox<>();
         btnResetLink = new javax.swing.JButton();
@@ -99,7 +102,6 @@ public class MainFrame extends javax.swing.JFrame {
         tblEventTypeMenuItems = new javax.swing.JTable();
         lblLinkMenuItem = new javax.swing.JLabel();
         cmbLinkMenuItem = new javax.swing.JComboBox<>();
-        tabBookings = new javax.swing.JPanel();
         btnLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,6 +111,19 @@ public class MainFrame extends javax.swing.JFrame {
                 MainTabsStateChanged(evt);
             }
         });
+
+        javax.swing.GroupLayout tabBookingsLayout = new javax.swing.GroupLayout(tabBookings);
+        tabBookings.setLayout(tabBookingsLayout);
+        tabBookingsLayout.setHorizontalGroup(
+            tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 865, Short.MAX_VALUE)
+        );
+        tabBookingsLayout.setVerticalGroup(
+            tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 495, Short.MAX_VALUE)
+        );
+
+        MainTabs.addTab("Bookings", tabBookings);
 
         lblEventDescription.setText("Description:");
 
@@ -426,46 +441,46 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout TabLinkMenuItemsToEventTypesLayout = new javax.swing.GroupLayout(TabLinkMenuItemsToEventTypes);
-        TabLinkMenuItemsToEventTypes.setLayout(TabLinkMenuItemsToEventTypesLayout);
-        TabLinkMenuItemsToEventTypesLayout.setHorizontalGroup(
-            TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+        javax.swing.GroupLayout tabLinkMenuItemsToEventTypesLayout = new javax.swing.GroupLayout(tabLinkMenuItemsToEventTypes);
+        tabLinkMenuItemsToEventTypes.setLayout(tabLinkMenuItemsToEventTypesLayout);
+        tabLinkMenuItemsToEventTypesLayout.setHorizontalGroup(
+            tabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(tabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
-                    .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
-                        .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                    .addGroup(tabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                        .addGroup(tabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(tabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
                                 .addComponent(lblLinkEvent)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cmbLinkEvent, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                            .addGroup(tabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
                                 .addComponent(btnResetLink, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnRemoveLink, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                            .addGroup(tabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
                                 .addComponent(lblLinkMenuItem)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cmbLinkMenuItem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        TabLinkMenuItemsToEventTypesLayout.setVerticalGroup(
-            TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+        tabLinkMenuItemsToEventTypesLayout.setVerticalGroup(
+            tabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(tabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLinkEvent)
                     .addComponent(cmbLinkEvent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(tabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLinkMenuItem)
                     .addComponent(cmbLinkMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(tabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnResetLink, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRemoveLink, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -474,20 +489,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        MainTabs.addTab("Link Menu Items to Event Types", TabLinkMenuItemsToEventTypes);
-
-        javax.swing.GroupLayout tabBookingsLayout = new javax.swing.GroupLayout(tabBookings);
-        tabBookings.setLayout(tabBookingsLayout);
-        tabBookingsLayout.setHorizontalGroup(
-            tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 865, Short.MAX_VALUE)
-        );
-        tabBookingsLayout.setVerticalGroup(
-            tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 495, Short.MAX_VALUE)
-        );
-
-        MainTabs.addTab("Bookings", tabBookings);
+        MainTabs.addTab("Link Menu Items to Event Types", tabLinkMenuItemsToEventTypes);
 
         btnLogout.setText("Logout");
         MainTabs.addTab("Logout", btnLogout);
@@ -680,14 +682,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbLinkMenuItemActionPerformed
 
     private void MainTabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_MainTabsStateChanged
-        int selectedIndex = MainTabs.getSelectedIndex();
-        if (selectedIndex != -1) {
-            switch (selectedIndex) {
-                case 4:
-                    userController.handleLogout(this);
-                    break;
-                default:
-                    break;
+        Object selectedComponent = MainTabs.getSelectedComponent();
+        if (selectedComponent != null) {
+            if (selectedComponent == btnLogout) {
+                userController.handleLogout(this);
             }
         }
     }//GEN-LAST:event_MainTabsStateChanged
@@ -798,7 +796,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane MainTabs;
-    private javax.swing.JPanel TabLinkMenuItemsToEventTypes;
     private javax.swing.JButton btnAddEvent;
     private javax.swing.JButton btnAddLink;
     private javax.swing.JButton btnAddMenuItem;
@@ -835,6 +832,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblMenuItemPrice;
     private javax.swing.JPanel tabBookings;
     private javax.swing.JPanel tabEventTypes;
+    private javax.swing.JPanel tabLinkMenuItemsToEventTypes;
     private javax.swing.JPanel tabMenuItems;
     private javax.swing.JTable tblEventTypeMenuItems;
     private javax.swing.JTable tblEventTypes;
