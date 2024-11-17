@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import prg371.project.bookings.business.enums.UserTypes;
 
 /**
  *
@@ -19,19 +20,26 @@ public class UserModel {
     private String email;
     private byte[] passwordHash;
     private LocalDateTime createdAt;
+    private UserTypes type = UserTypes.Standard;
 
-    // Constructors, getters, and setters
-    public UserModel() {}
+    public UserModel() { }
+    
+    public UserModel(String name, String email, String password, UserTypes type) {
+        this.name = name;
+        this.email = email;
+        this.passwordHash = hashPassword(password);
+        this.type = type;
+    }
 
-    public UserModel(int userId, String name, String email, byte[] passwordHash, LocalDateTime createdAt) {
+    public UserModel(int userId, String name, String email, byte[] passwordHash, LocalDateTime createdAt, UserTypes type) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
         this.createdAt = createdAt;
+        this.type = type;
     }
 
-    // Getters and setters
     public int getUserId() {
         return userId;
     }
@@ -70,6 +78,14 @@ public class UserModel {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    public UserTypes getType() {
+        return type;
+    }
+
+    public void setType(UserTypes type) {
+        this.type = type;
     }
     
     public void setPassword(String password) {

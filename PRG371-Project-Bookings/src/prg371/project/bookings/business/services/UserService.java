@@ -4,6 +4,7 @@
  */
 package prg371.project.bookings.business.services;
 
+import prg371.project.bookings.Main;
 import prg371.project.bookings.business.models.UserModel;
 import prg371.project.bookings.dataaccess.repositories.UserRepository;
 
@@ -27,7 +28,15 @@ public class UserService {
     
     public boolean login(String email, String password) {
         UserModel user = userRepository.getUserByEmail(email);
-        
-        return user != null && user.checkPassword(password);
+        if (user != null && user.checkPassword(password)) {
+            Main.userType = user.getType();
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean logout() {
+        Main.userType = null;
+        return true;
     }
 }

@@ -8,6 +8,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
+import prg371.project.bookings.business.enums.UserTypes;
+import prg371.project.bookings.business.models.UserModel;
+import prg371.project.bookings.dataaccess.repositories.UserRepository;
 /**
  *
  * @author User
@@ -57,7 +60,8 @@ public class ConnectionProvider {
                 "Name VARCHAR(50) NOT NULL, " +
                 "Email VARCHAR(100) NOT NULL, " +
                 "PasswordHash BLOB, " +
-                "CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                "CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                "Type INT NOT NULL" +
             ")"
         );
         
@@ -126,6 +130,9 @@ public class ConnectionProvider {
             "(6, 4), " +
             "(7, 5) "
         );
+        
+        UserRepository userRepository = new UserRepository();
+        userRepository.addUser(new UserModel("a", "a", "a", UserTypes.Admin));
     }
     
     private void executeSQLQuery(String query) {

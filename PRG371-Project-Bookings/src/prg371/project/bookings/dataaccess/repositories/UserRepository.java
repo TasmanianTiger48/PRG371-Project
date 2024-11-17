@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import prg371.project.bookings.business.enums.UserTypes;
 import prg371.project.bookings.business.models.UserModel;
 import prg371.project.bookings.dataaccess.ConnectionProvider;
 
@@ -22,7 +23,7 @@ import prg371.project.bookings.dataaccess.ConnectionProvider;
  */
 public class UserRepository {
     public boolean addUser(UserModel user) {
-        String query = "INSERT INTO Users (Name, Email, PasswordHash, CreatedAt) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Users (Name, Email, PasswordHash, CreatedAt, Type) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionProvider.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -31,6 +32,7 @@ public class UserRepository {
             statement.setString(2, user.getEmail());
             statement.setBytes(3, user.getPasswordHash());
             statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            statement.setInt(5, user.getType().getKey());
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
@@ -68,8 +70,9 @@ public class UserRepository {
         byte[] passwordHash = resultSet.getBytes("PasswordHash");
         Timestamp createdAtTimestamp = resultSet.getTimestamp("CreatedAt");
         LocalDateTime createdAt = createdAtTimestamp.toLocalDateTime();
+        UserTypes type = UserTypes.fromKey(resultSet.getInt("Type"));
 
-        return new UserModel(userId, username, email, passwordHash, createdAt);
+        return new UserModel(userId, username, email, passwordHash, createdAt, type);
     }
     
     public UserModel getUserByEmail(String email) {

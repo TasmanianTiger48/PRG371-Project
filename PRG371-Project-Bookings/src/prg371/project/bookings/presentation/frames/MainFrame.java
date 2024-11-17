@@ -4,6 +4,18 @@
  */
 package prg371.project.bookings.presentation.frames;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import prg371.project.bookings.Main;
+import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
+import prg371.project.bookings.business.enums.UserTypes;
+import prg371.project.bookings.business.models.EventTypeModel;
+import prg371.project.bookings.business.models.MenuItemModel;
+import prg371.project.bookings.presentation.controllers.EventTypeController;
+import prg371.project.bookings.presentation.controllers.MenuItemController;
+import prg371.project.bookings.presentation.controllers.UserController;
+import prg371.project.bookings.presentation.utilities.FrameUtils;
+
 /**
  *
  * @author User
@@ -11,10 +23,26 @@ package prg371.project.bookings.presentation.frames;
 public class MainFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form MainFrame
+     * Creates new form AdminFrame
      */
+    private final UserController userController = new UserController();
+    private final EventTypeController eventTypeController = new EventTypeController();
+    private final MenuItemController menuItemController = new MenuItemController();
+    
     public MainFrame() {
         initComponents();
+        
+        if (Main.userType == UserTypes.Admin) {
+            loadEventTypes();
+            loadMenuItems();
+            loadEventTypesLinkedMenuItems();
+
+            for (MenuItemCategoryTypes type : MenuItemCategoryTypes.values()) {
+                cmbMenuItemCategoryType.addItem(type.getDescription());
+            }
+        } else {
+            MainTabs.getComponentAt(1).setVisible(false);
+        }
     }
 
     /**
@@ -26,67 +54,443 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        pnlNotifications = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
+        buttonGroup6 = new javax.swing.ButtonGroup();
+        buttonGroup7 = new javax.swing.ButtonGroup();
+        buttonGroup8 = new javax.swing.ButtonGroup();
+        MainTabs = new javax.swing.JTabbedPane();
+        tabEventTypes = new javax.swing.JPanel();
+        lblEventDescription = new javax.swing.JLabel();
+        lblEventAmount = new javax.swing.JLabel();
+        txtEventAmount = new javax.swing.JTextField();
+        txtEventDescription = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblEventTypes = new javax.swing.JTable();
+        btnRemoveEvent = new javax.swing.JButton();
+        btnAddEvent = new javax.swing.JButton();
+        btnUpdateEvent = new javax.swing.JButton();
+        btnResetEvent = new javax.swing.JButton();
+        tabMenuItems = new javax.swing.JPanel();
+        lblMenuItemName = new javax.swing.JLabel();
+        lblMenuItemDescription = new javax.swing.JLabel();
+        txtMenuItemDescription = new javax.swing.JTextField();
+        txtMenuItemName = new javax.swing.JTextField();
+        btnResetMenuItem = new javax.swing.JButton();
+        btnAddMenuItem = new javax.swing.JButton();
+        btnUpdateMenuItem = new javax.swing.JButton();
+        btnRemoveMenuItem = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblMenuItems = new javax.swing.JTable();
+        lblMenuItemCategoryType = new javax.swing.JLabel();
+        lblMenuItemPrice = new javax.swing.JLabel();
+        cmbMenuItemCategoryType = new javax.swing.JComboBox<>();
+        txtMenuItemPrice = new javax.swing.JTextField();
+        TabLinkMenuItemsToEventTypes = new javax.swing.JPanel();
+        lblLinkEvent = new javax.swing.JLabel();
+        cmbLinkEvent = new javax.swing.JComboBox<>();
+        btnResetLink = new javax.swing.JButton();
+        btnAddLink = new javax.swing.JButton();
+        btnRemoveLink = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblEventTypeMenuItems = new javax.swing.JTable();
+        lblLinkMenuItem = new javax.swing.JLabel();
+        cmbLinkMenuItem = new javax.swing.JComboBox<>();
+        tabBookings = new javax.swing.JPanel();
+        btnLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        MainTabs.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                MainTabsStateChanged(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        lblEventDescription.setText("Description:");
+
+        lblEventAmount.setText("Amount:");
+
+        tblEventTypes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Id", "Description", "Amount"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblEventTypes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEventTypesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblEventTypes);
+
+        btnRemoveEvent.setText("Delete");
+        btnRemoveEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveEventActionPerformed(evt);
+            }
+        });
+
+        btnAddEvent.setText("Add");
+        btnAddEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEventActionPerformed(evt);
+            }
+        });
+
+        btnUpdateEvent.setText("Update");
+        btnUpdateEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateEventActionPerformed(evt);
+            }
+        });
+
+        btnResetEvent.setText("Reset");
+        btnResetEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetEventActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout tabEventTypesLayout = new javax.swing.GroupLayout(tabEventTypes);
+        tabEventTypes.setLayout(tabEventTypesLayout);
+        tabEventTypesLayout.setHorizontalGroup(
+            tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabEventTypesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(585, Short.MAX_VALUE))
+                .addGroup(tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
+                    .addGroup(tabEventTypesLayout.createSequentialGroup()
+                        .addGroup(tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(tabEventTypesLayout.createSequentialGroup()
+                                .addGroup(tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblEventDescription)
+                                    .addComponent(lblEventAmount))
+                                .addGap(18, 18, 18)
+                                .addGroup(tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtEventDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                                    .addComponent(txtEventAmount)))
+                            .addGroup(tabEventTypesLayout.createSequentialGroup()
+                                .addComponent(btnResetEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAddEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUpdateEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRemoveEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addContainerGap(391, Short.MAX_VALUE))
+        tabEventTypesLayout.setVerticalGroup(
+            tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabEventTypesLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEventDescription)
+                    .addComponent(txtEventDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEventAmount)
+                    .addComponent(txtEventAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(tabEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdateEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRemoveEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnResetEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Manage Bookings", jPanel1);
+        MainTabs.addTab("Event Types", tabEventTypes);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 429, Short.MAX_VALUE)
-        );
+        lblMenuItemName.setText("Name:");
 
-        jTabbedPane1.addTab("Manage Account", jPanel2);
+        lblMenuItemDescription.setText("Description:");
 
-        jLabel2.setText("Notifications");
+        btnResetMenuItem.setText("Reset");
+        btnResetMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetMenuItemActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout pnlNotificationsLayout = new javax.swing.GroupLayout(pnlNotifications);
-        pnlNotifications.setLayout(pnlNotificationsLayout);
-        pnlNotificationsLayout.setHorizontalGroup(
-            pnlNotificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNotificationsLayout.createSequentialGroup()
+        btnAddMenuItem.setText("Add");
+        btnAddMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMenuItemActionPerformed(evt);
+            }
+        });
+
+        btnUpdateMenuItem.setText("Update");
+        btnUpdateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateMenuItemActionPerformed(evt);
+            }
+        });
+
+        btnRemoveMenuItem.setText("Delete");
+        btnRemoveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveMenuItemActionPerformed(evt);
+            }
+        });
+
+        tblMenuItems.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Id", "Name", "Description", "Category Type", "Price"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblMenuItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuItemsMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblMenuItems);
+        if (tblMenuItems.getColumnModel().getColumnCount() > 0) {
+            tblMenuItems.getColumnModel().getColumn(3).setHeaderValue("Category Type");
+            tblMenuItems.getColumnModel().getColumn(4).setHeaderValue("Price");
+        }
+
+        lblMenuItemCategoryType.setText("Category Type:");
+
+        lblMenuItemPrice.setText("Price:");
+
+        cmbMenuItemCategoryType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbMenuItemCategoryTypeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout tabMenuItemsLayout = new javax.swing.GroupLayout(tabMenuItems);
+        tabMenuItems.setLayout(tabMenuItemsLayout);
+        tabMenuItemsLayout.setHorizontalGroup(
+            tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabMenuItemsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
+                    .addGroup(tabMenuItemsLayout.createSequentialGroup()
+                        .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(tabMenuItemsLayout.createSequentialGroup()
+                                .addComponent(btnResetMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAddMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUpdateMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRemoveMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(tabMenuItemsLayout.createSequentialGroup()
+                                .addComponent(lblMenuItemPrice)
+                                .addGap(66, 66, 66)
+                                .addComponent(txtMenuItemPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(tabMenuItemsLayout.createSequentialGroup()
+                                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblMenuItemName)
+                                    .addComponent(lblMenuItemDescription)
+                                    .addComponent(lblMenuItemCategoryType))
+                                .addGap(16, 16, 16)
+                                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cmbMenuItemCategoryType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtMenuItemName)
+                                    .addComponent(txtMenuItemDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        pnlNotificationsLayout.setVerticalGroup(
-            pnlNotificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNotificationsLayout.createSequentialGroup()
+        tabMenuItemsLayout.setVerticalGroup(
+            tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabMenuItemsLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMenuItemName)
+                    .addComponent(txtMenuItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMenuItemDescription)
+                    .addComponent(txtMenuItemDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbMenuItemCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMenuItemCategoryType))
+                .addGap(18, 18, 18)
+                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMenuItemPrice)
+                    .addComponent(txtMenuItemPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdateMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRemoveMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnResetMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        MainTabs.addTab("Menu Items", tabMenuItems);
+
+        lblLinkEvent.setText("Event Type:");
+
+        cmbLinkEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbLinkEventActionPerformed(evt);
+            }
+        });
+
+        btnResetLink.setText("Reset");
+        btnResetLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetLinkActionPerformed(evt);
+            }
+        });
+
+        btnAddLink.setText("Add");
+        btnAddLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddLinkActionPerformed(evt);
+            }
+        });
+
+        btnRemoveLink.setText("Delete");
+        btnRemoveLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveLinkActionPerformed(evt);
+            }
+        });
+
+        tblEventTypeMenuItems.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Event Type", "Menu Item"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblEventTypeMenuItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEventTypeMenuItemsMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblEventTypeMenuItems);
+
+        lblLinkMenuItem.setText("Menu Item:");
+
+        cmbLinkMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbLinkMenuItemActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout TabLinkMenuItemsToEventTypesLayout = new javax.swing.GroupLayout(TabLinkMenuItemsToEventTypes);
+        TabLinkMenuItemsToEventTypes.setLayout(TabLinkMenuItemsToEventTypesLayout);
+        TabLinkMenuItemsToEventTypesLayout.setHorizontalGroup(
+            TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
+                    .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                        .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                                .addComponent(lblLinkEvent)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbLinkEvent, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                                .addComponent(btnResetLink, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRemoveLink, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                                .addComponent(lblLinkMenuItem)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbLinkMenuItem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
+        TabLinkMenuItemsToEventTypesLayout.setVerticalGroup(
+            TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabLinkMenuItemsToEventTypesLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblLinkEvent)
+                    .addComponent(cmbLinkEvent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblLinkMenuItem)
+                    .addComponent(cmbLinkMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(TabLinkMenuItemsToEventTypesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddLink, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnResetLink, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRemoveLink, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        MainTabs.addTab("Link Menu Items to Event Types", TabLinkMenuItemsToEventTypes);
+
+        javax.swing.GroupLayout tabBookingsLayout = new javax.swing.GroupLayout(tabBookings);
+        tabBookings.setLayout(tabBookingsLayout);
+        tabBookingsLayout.setHorizontalGroup(
+            tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 865, Short.MAX_VALUE)
+        );
+        tabBookingsLayout.setVerticalGroup(
+            tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 495, Short.MAX_VALUE)
+        );
+
+        MainTabs.addTab("Bookings", tabBookings);
+
+        btnLogout.setText("Logout");
+        MainTabs.addTab("Logout", btnLogout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,24 +498,268 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlNotifications, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(MainTabs)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlNotifications, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1))
+                .addComponent(MainTabs)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEventActionPerformed
+        if (eventTypeController.addEventType(
+                txtEventDescription.getText(), 
+                txtEventAmount.getText()
+        )) {
+            clearEventInputs();
+            loadEventTypes();
+        }
+    }//GEN-LAST:event_btnAddEventActionPerformed
+
+    private void btnUpdateEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateEventActionPerformed
+        int selectedRow = tblEventTypes.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int)tblEventTypes.getValueAt(selectedRow, 0);
+            if (eventTypeController.updateEventType(
+                id,
+                txtEventDescription.getText(), 
+                txtEventAmount.getText()
+            )) {
+                clearEventInputs();
+                loadEventTypes();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to update");
+        }
+    }//GEN-LAST:event_btnUpdateEventActionPerformed
+
+    private void tblEventTypesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEventTypesMouseClicked
+        int selectedRow = tblEventTypes.getSelectedRow();
+        if (selectedRow != -1) {
+            txtEventDescription.setText(
+                tblEventTypes.getValueAt(selectedRow, 1).toString()
+            );
+            
+            txtEventAmount.setText(
+                tblEventTypes.getValueAt(selectedRow, 2).toString()
+            );
+        }
+    }//GEN-LAST:event_tblEventTypesMouseClicked
+
+    private void btnRemoveEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveEventActionPerformed
+        int selectedRow = tblEventTypes.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int)tblEventTypes.getValueAt(selectedRow, 0);
+            if (eventTypeController.deleteEventType(id)) {
+                clearEventInputs();
+                loadEventTypes();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to remove");
+        }
+    }//GEN-LAST:event_btnRemoveEventActionPerformed
+
+    private void btnResetEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetEventActionPerformed
+        clearEventInputs();
+    }//GEN-LAST:event_btnResetEventActionPerformed
+
+    private void btnResetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetMenuItemActionPerformed
+        clearMenuItemInputs();
+    }//GEN-LAST:event_btnResetMenuItemActionPerformed
+
+    private void btnAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMenuItemActionPerformed
+        if (menuItemController.addMenuItem(
+            txtMenuItemName.getText(),
+            txtMenuItemDescription.getText(),
+            cmbMenuItemCategoryType.getSelectedIndex(),
+            txtMenuItemPrice.getText()
+        )) {
+            clearMenuItemInputs();
+            loadMenuItems();
+        }
+    }//GEN-LAST:event_btnAddMenuItemActionPerformed
+
+    private void btnUpdateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateMenuItemActionPerformed
+        int selectedRow = tblMenuItems.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int)tblMenuItems.getValueAt(selectedRow, 0);
+            if (menuItemController.updateMenuItem(
+                id,
+                txtMenuItemName.getText(),
+                txtMenuItemDescription.getText(),
+                cmbMenuItemCategoryType.getSelectedIndex(),
+                txtMenuItemPrice.getText()
+            )) {
+                clearMenuItemInputs();
+                loadMenuItems();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to update");
+        }
+    }//GEN-LAST:event_btnUpdateMenuItemActionPerformed
+
+    private void btnRemoveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveMenuItemActionPerformed
+        int selectedRow = tblMenuItems.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int)tblMenuItems.getValueAt(selectedRow, 0);
+            if (menuItemController.deleteMenuType(id)) {
+                clearMenuItemInputs();
+                loadMenuItems();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to remove");
+        }
+    }//GEN-LAST:event_btnRemoveMenuItemActionPerformed
+
+    private void tblMenuItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuItemsMouseClicked
+        int selectedRow = tblMenuItems.getSelectedRow();
+        if (selectedRow != -1) {
+            txtMenuItemName.setText(
+                tblMenuItems.getValueAt(selectedRow, 1).toString()
+            );
+            
+            txtMenuItemDescription.setText(
+                tblMenuItems.getValueAt(selectedRow, 2).toString()
+            );
+            
+            cmbMenuItemCategoryType.setSelectedIndex(
+                MenuItemCategoryTypes.fromDescription(tblMenuItems.getValueAt(selectedRow, 3).toString()).getKey()
+            );
+            
+            txtMenuItemPrice.setText(
+                tblMenuItems.getValueAt(selectedRow, 4).toString()
+            );
+        }
+    }//GEN-LAST:event_tblMenuItemsMouseClicked
+
+    private void cmbMenuItemCategoryTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMenuItemCategoryTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbMenuItemCategoryTypeActionPerformed
+
+    private void cmbLinkEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbLinkEventActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbLinkEventActionPerformed
+
+    private void btnResetLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetLinkActionPerformed
+        clearEventTypesLinkedMenuItemsInputs();
+    }//GEN-LAST:event_btnResetLinkActionPerformed
+
+    private void btnAddLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLinkActionPerformed
+        if (eventTypeController.addLinkedMenuItem(
+            cmbLinkEvent.getSelectedIndex() + 1,
+            cmbLinkMenuItem.getSelectedIndex() + 1
+        )) {
+            clearEventTypesLinkedMenuItemsInputs();
+            loadEventTypesLinkedMenuItems();
+        }
+    }//GEN-LAST:event_btnAddLinkActionPerformed
+
+    private void btnRemoveLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveLinkActionPerformed
+        
+    }//GEN-LAST:event_btnRemoveLinkActionPerformed
+
+    private void tblEventTypeMenuItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEventTypeMenuItemsMouseClicked
+        int selectedRow = tblEventTypeMenuItems.getSelectedRow();
+        if (selectedRow != -1) {
+            int eventIndex = FrameUtils.getIndexByValue(cmbLinkEvent, tblEventTypeMenuItems.getValueAt(selectedRow, 1));
+            int menuItemIndex = FrameUtils.getIndexByValue(cmbLinkEvent, tblEventTypeMenuItems.getValueAt(selectedRow, 1));
+            
+            cmbLinkEvent.setSelectedIndex(eventIndex);
+            cmbLinkMenuItem.setSelectedIndex(menuItemIndex);
+        }
+    }//GEN-LAST:event_tblEventTypeMenuItemsMouseClicked
+
+    private void cmbLinkMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbLinkMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbLinkMenuItemActionPerformed
+
+    private void MainTabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_MainTabsStateChanged
+        int selectedIndex = MainTabs.getSelectedIndex();
+        if (selectedIndex != -1) {
+            switch (selectedIndex) {
+                case 4:
+                    userController.handleLogout(this);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }//GEN-LAST:event_MainTabsStateChanged
+
+    private void clearEventInputs() {
+        txtEventDescription.setText("");
+        txtEventAmount.setText("");
+    }
+    
+    private void loadEventTypes() {
+        cmbLinkEvent.removeAllItems();
+        FrameUtils.clearTableRows(tblEventTypes);
+        DefaultTableModel model = (DefaultTableModel)tblEventTypes.getModel();
+        for (EventTypeModel event : eventTypeController.loadEventTypes()) {
+            model.addRow(
+                new Object[] {
+                    event.getId(),
+                    event.getDescription(),
+                    event.getBaseAmount()
+                }
+            );
+            
+            cmbLinkEvent.addItem(event.getDescription());
+        }
+    }
+    
+    private void clearMenuItemInputs() {
+        txtMenuItemName.setText("");
+        txtMenuItemDescription.setText("");
+        cmbMenuItemCategoryType.setSelectedIndex(-1);
+        txtMenuItemPrice.setText("");
+    }
+    
+    private void loadMenuItems() {
+        cmbLinkMenuItem.removeAllItems();
+        FrameUtils.clearTableRows(tblMenuItems);
+        DefaultTableModel model = (DefaultTableModel)tblMenuItems.getModel();
+        for (MenuItemModel item : menuItemController.loadMenuItems()) {
+            model.addRow(
+                new Object[] {
+                    item.getId(),
+                    item.getName(),
+                    item.getDescription(),
+                    item.getCategoryType().getDescription(),
+                    item.getPrice()
+                }
+            );
+            cmbLinkMenuItem.addItem(item.getName());
+        }
+    }
+    
+    private void clearEventTypesLinkedMenuItemsInputs() {
+        cmbLinkEvent.setSelectedIndex(-1);
+        cmbLinkMenuItem.setSelectedIndex(-1);
+    }
+    
+    private void loadEventTypesLinkedMenuItems() {
+        FrameUtils.clearTableRows(tblEventTypeMenuItems);
+        DefaultTableModel model = (DefaultTableModel)tblEventTypeMenuItems.getModel();
+        eventTypeController.loadEventTypesLinkedMenuItems().forEach((eventType, menuItems) -> {
+            menuItems.forEach(menuItem -> {
+                model.addRow(
+                    new Object[] {
+                        eventType.getDescription(),
+                        menuItem.getName()
+                    }
+                );
+            });
+        });
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -138,6 +786,7 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -148,11 +797,52 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JPanel pnlNotifications;
+    private javax.swing.JTabbedPane MainTabs;
+    private javax.swing.JPanel TabLinkMenuItemsToEventTypes;
+    private javax.swing.JButton btnAddEvent;
+    private javax.swing.JButton btnAddLink;
+    private javax.swing.JButton btnAddMenuItem;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnRemoveEvent;
+    private javax.swing.JButton btnRemoveLink;
+    private javax.swing.JButton btnRemoveMenuItem;
+    private javax.swing.JButton btnResetEvent;
+    private javax.swing.JButton btnResetLink;
+    private javax.swing.JButton btnResetMenuItem;
+    private javax.swing.JButton btnUpdateEvent;
+    private javax.swing.JButton btnUpdateMenuItem;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup buttonGroup6;
+    private javax.swing.ButtonGroup buttonGroup7;
+    private javax.swing.ButtonGroup buttonGroup8;
+    private javax.swing.JComboBox<String> cmbLinkEvent;
+    private javax.swing.JComboBox<String> cmbLinkMenuItem;
+    private javax.swing.JComboBox<String> cmbMenuItemCategoryType;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblEventAmount;
+    private javax.swing.JLabel lblEventDescription;
+    private javax.swing.JLabel lblLinkEvent;
+    private javax.swing.JLabel lblLinkMenuItem;
+    private javax.swing.JLabel lblMenuItemCategoryType;
+    private javax.swing.JLabel lblMenuItemDescription;
+    private javax.swing.JLabel lblMenuItemName;
+    private javax.swing.JLabel lblMenuItemPrice;
+    private javax.swing.JPanel tabBookings;
+    private javax.swing.JPanel tabEventTypes;
+    private javax.swing.JPanel tabMenuItems;
+    private javax.swing.JTable tblEventTypeMenuItems;
+    private javax.swing.JTable tblEventTypes;
+    private javax.swing.JTable tblMenuItems;
+    private javax.swing.JTextField txtEventAmount;
+    private javax.swing.JTextField txtEventDescription;
+    private javax.swing.JTextField txtMenuItemDescription;
+    private javax.swing.JTextField txtMenuItemName;
+    private javax.swing.JTextField txtMenuItemPrice;
     // End of variables declaration//GEN-END:variables
 }

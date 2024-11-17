@@ -6,10 +6,13 @@ package prg371.project.bookings.presentation.controllers;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import prg371.project.bookings.Main;
+import prg371.project.bookings.business.enums.UserTypes;
 import prg371.project.bookings.business.models.UserModel;
 import prg371.project.bookings.business.services.UserService;
-import prg371.project.bookings.presentation.frames.AdminFrame;
 import prg371.project.bookings.presentation.frames.MainFrame;
+import prg371.project.bookings.presentation.frames.MainFrame;
+import prg371.project.bookings.presentation.frames.UserLoginFrame;
 
 /**
  *
@@ -34,10 +37,7 @@ public class UserController {
             return false;
         }
 
-        UserModel user = new UserModel();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(password);
+        UserModel user = new UserModel(name, email, password, UserTypes.Standard);
 
         if (userService.register(user)) {
             JOptionPane.showMessageDialog(null, "Registration successful");
@@ -59,8 +59,14 @@ public class UserController {
             JOptionPane.showMessageDialog(null, "Login failed, email or password may be incorrect");
         } else {
             new MainFrame().setVisible(true);
-            new AdminFrame().setVisible(true);
             loginFrame.dispose();
+        }
+    }
+    
+    public void handleLogout(JFrame currentFrame) {
+        if (userService.logout()) {
+            new UserLoginFrame().setVisible(true);
+            currentFrame.dispose();
         }
     }
 }
