@@ -47,8 +47,15 @@ public class UserLoginFrame extends javax.swing.JFrame {
         txtRegisterPassword = new javax.swing.JTextField();
         btnRegister = new javax.swing.JButton();
         btnToLogin = new javax.swing.JButton();
+        tabExit = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tpUserLogin.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tpUserLoginStateChanged(evt);
+            }
+        });
 
         lblLoginEmail.setText("Email:");
 
@@ -80,13 +87,13 @@ public class UserLoginFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnToRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tabLoginLayout.createSequentialGroup()
-                        .addComponent(lblLoginEmail)
-                        .addGap(43, 43, 43)
-                        .addComponent(txtLoginEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tabLoginLayout.createSequentialGroup()
-                        .addComponent(lblLoginPassword)
-                        .addGap(22, 22, 22)
-                        .addComponent(txtLoginPassword)))
+                        .addGroup(tabLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblLoginPassword)
+                            .addComponent(lblLoginEmail))
+                        .addGap(18, 18, 18)
+                        .addGroup(tabLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtLoginEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLoginPassword))))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
         tabLoginLayout.setVerticalGroup(
@@ -187,6 +194,19 @@ public class UserLoginFrame extends javax.swing.JFrame {
 
         tpUserLogin.addTab("Register", tabRegister);
 
+        javax.swing.GroupLayout tabExitLayout = new javax.swing.GroupLayout(tabExit);
+        tabExit.setLayout(tabExitLayout);
+        tabExitLayout.setHorizontalGroup(
+            tabExitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 388, Short.MAX_VALUE)
+        );
+        tabExitLayout.setVerticalGroup(
+            tabExitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 253, Short.MAX_VALUE)
+        );
+
+        tpUserLogin.addTab("Exit", tabExit);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -234,6 +254,15 @@ public class UserLoginFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
+    private void tpUserLoginStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tpUserLoginStateChanged
+        Object selectedComponent = tpUserLogin.getSelectedComponent();
+        if (selectedComponent != null) {
+            if (selectedComponent == tabExit) {
+                System.exit(1);
+            }
+        }
+    }//GEN-LAST:event_tpUserLoginStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -280,6 +309,7 @@ public class UserLoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblRegisterConfirmPassword;
     private javax.swing.JLabel lblRegisterEmail;
     private javax.swing.JLabel lblRegisterPassword;
+    private javax.swing.JPanel tabExit;
     private javax.swing.JPanel tabLogin;
     private javax.swing.JPanel tabRegister;
     private javax.swing.JTabbedPane tpUserLogin;

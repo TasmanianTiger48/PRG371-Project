@@ -49,6 +49,7 @@ public class ConnectionProvider {
     }
     
     public void generateDB() {
+        executeSQLQuery("DROP TABLE BookingMenuItems");
         executeSQLQuery("DROP TABLE Bookings");
         executeSQLQuery("DROP TABLE Users");
         executeSQLQuery("DROP TABLE EventTypeMenuItems");
@@ -112,6 +113,17 @@ public class ConnectionProvider {
                 "CalculatedPrice DECIMAL(10, 2) NOT NULL," +
                 "FOREIGN KEY (UserId) REFERENCES Users(Id)," +
                 "FOREIGN KEY (EventTypeId) REFERENCES EventTypes(Id)" +
+            ")"
+        );
+        
+        executeSQLQuery(
+            "CREATE TABLE BookingMenuItems (" +
+                "Id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY," +
+                "BookingId INT NOT NULL," +
+                "MenuItemId INT NOT NULL," +
+                "Amount INT NOT NULL," +
+                "FOREIGN KEY (MenuItemId) REFERENCES MenuItems(Id)," +
+                "FOREIGN KEY (BookingId) REFERENCES Bookings(Id)" +
             ")"
         );
     }

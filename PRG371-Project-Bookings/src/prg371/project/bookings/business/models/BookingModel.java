@@ -6,6 +6,7 @@ package prg371.project.bookings.business.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 import prg371.project.bookings.business.enums.BookingStatusTypes;
 
 /**
@@ -27,11 +28,12 @@ public class BookingModel {
     private int userId;
     private UserModel user;
     private double calculatedPrice;
+    private Map<MenuItemModel, Integer> linkedMenuItems;
 
     public BookingModel() {
     }
 
-    public BookingModel(int id, int eventTypeId, EventTypeModel eventType, boolean decorateOptIn, LocalDate eventDate, String venueAddress, int adultCount, int childrenCount, BookingStatusTypes status, LocalDateTime createdDate, LocalDateTime lastUpdateDate, int userId, UserModel user, double calculatedPrice) {
+    public BookingModel(int id, int eventTypeId, EventTypeModel eventType, boolean decorateOptIn, LocalDate eventDate, String venueAddress, int adultCount, int childrenCount, BookingStatusTypes status, LocalDateTime createdDate, LocalDateTime lastUpdateDate, int userId, UserModel user, double calculatedPrice, Map<MenuItemModel, Integer> linkedMenuItems) {
         this.id = id;
         this.eventTypeId = eventTypeId;
         this.eventType = eventType;
@@ -46,9 +48,10 @@ public class BookingModel {
         this.userId = userId;
         this.user = user;
         this.calculatedPrice = calculatedPrice;
+        this.linkedMenuItems = linkedMenuItems;
     }
     
-    public BookingModel(int id, int eventTypeId, boolean decorateOptIn, LocalDate eventDate, String venueAddress, int adultCount, int childrenCount, BookingStatusTypes status, LocalDateTime createdDate, LocalDateTime lastUpdateDate, int userId, double calculatedPrice) {
+    public BookingModel(int id, int eventTypeId, boolean decorateOptIn, LocalDate eventDate, String venueAddress, int adultCount, int childrenCount, BookingStatusTypes status, LocalDateTime createdDate, LocalDateTime lastUpdateDate, int userId, double calculatedPrice, Map<MenuItemModel, Integer> linkedMenuItems) {
         this.id = id;
         this.eventTypeId = eventTypeId;
         this.decorateOptIn = decorateOptIn;
@@ -61,6 +64,7 @@ public class BookingModel {
         this.lastUpdateDate = lastUpdateDate;
         this.userId = userId;
         this.calculatedPrice = calculatedPrice;
+        this.linkedMenuItems = linkedMenuItems;
     }
 
     public int getId() {
@@ -173,6 +177,14 @@ public class BookingModel {
 
     public void setCalculatedPrice(double calculatedPrice) {
         this.calculatedPrice = calculatedPrice;
+    }
+
+    public Map<MenuItemModel, Integer> getLinkedMenuItems() {
+        return linkedMenuItems;
+    }
+
+    public void setLinkedMenuItems(Map<MenuItemModel, Integer> linkedMenuItems) {
+        this.linkedMenuItems = linkedMenuItems;
     }
     
     public String validate() {

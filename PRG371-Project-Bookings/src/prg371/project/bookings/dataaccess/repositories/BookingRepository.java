@@ -15,10 +15,14 @@ import java.util.List;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import prg371.project.bookings.business.enums.BookingStatusTypes;
+import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
 import prg371.project.bookings.business.enums.UserTypes;
 import prg371.project.bookings.business.models.BookingModel;
 import prg371.project.bookings.business.models.EventTypeModel;
+import prg371.project.bookings.business.models.MenuItemModel;
 import prg371.project.bookings.business.models.UserModel;
 import prg371.project.bookings.dataaccess.ConnectionProvider;
 
@@ -103,12 +107,13 @@ public class BookingRepository {
     }
     
     public BookingModel getBookingByDate(LocalDate eventDate) {
-        String query = "SELECT * FROM Bookings WHERE EventDate = ?";
+        String query = "SELECT * FROM Bookings WHERE EventDate = ? AND NOT Status = ?";
 
         try (Connection connection = ConnectionProvider.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setDate(1, Date.valueOf(eventDate));
+            statement.setInt(2, BookingStatusTypes.Cancelled.getKey());
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -128,14 +133,19 @@ public class BookingRepository {
 
     // Get all bookings for a specific user
     public List<BookingModel> getAllBookingsByUser(Integer userId) {
-        List<BookingModel> bookings = new ArrayList<>();
+        Map<Integer, BookingModel> bookings = new HashMap<>();
         String query = "SELECT b.Id AS BookingId, b.EventTypeId, b.DecorateOptIn, b.EventDate, b.VenueAddress, " +
-                       "b.Adults, b.Children, b.Status, b.CreatedDate, b.LastUpdateDate, b.UserId, b.CalculatedPrice, " +
-                       "u.Id AS UserId, u.Name AS UserName, u.Email AS UserEmail, u.Type AS UserType, " +
-                       "e.Id AS EventTypeId, e.Description AS EventTypeDescription, e.BaseAmount AS EventTypeBaseAmount " +
-                       "FROM Bookings b " +
-                       "JOIN Users u ON b.UserId = u.Id " +
-                       "JOIN EventTypes e ON b.EventTypeId = e.Id";
+                            "b.Adults, b.Children, b.Status, b.CreatedDate, b.LastUpdateDate, b.UserId, b.CalculatedPrice, " +
+                            "u.Id AS UserId, u.Name AS UserName, u.Email AS UserEmail, u.Type AS UserType, " +
+                            "e.Id AS EventTypeId, e.Description AS EventTypeDescription, e.BaseAmount AS EventTypeBaseAmount, " +
+                            "m.Name AS MenuItemName, m.Description AS MenuItemDescription, m.Price AS MenuItemPrice, m.CategoryType AS MenuItemCategoryType," +
+                            " bmi.Amount AS MenuItemAmount" +
+                        "FROM Bookings b " +
+                        "INNER JOIN Users u ON b.UserId = u.Id " +
+                        "INNER JOIN EventTypes e ON b.EventTypeId = e.Id " +
+                        "LEFT JOIN BookingMenuItems bmi ON b.Id = bmi.BookingId " +
+                        "LEFT JOIN MenuItems m ON bmi.MenuItemId = m.Id";
+        
         if (userId != null) {
             query += " WHERE UserId = ?";
         }
@@ -149,15 +159,32 @@ public class BookingRepository {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                BookingModel booking = mapRowToBookingIncludeEventTypeIncludeUser(resultSet);
-                bookings.add(booking);
+                BookingModel booking = bookings.get(resultSet.getInt("BookingId"));
+                
+                if (booking == null) {
+                    booking = mapRowToBookingIncludeEventTypeIncludeUser(resultSet);
+                    bookings.put(booking.getId(), booking);
+                }
+                
+                int menuItemId = resultSet.getInt("MenuItemId");
+                if (menuItemId != 0) {
+                    String menuItemName = resultSet.getString("MenuItemName");
+                    String menuItemDescription = resultSet.getString("MenuItemDescription");
+                    int menuItemAmount = resultSet.getInt("MenuItemAmount");
+                    int menuItemCategoryType = resultSet.getInt("MenuItemCategoryType");
+                    double menuItemPrice = resultSet.getDouble("MenuItemPrice");
+                    
+                    MenuItemModel menuItem = new MenuItemModel(menuItemId, menuItemName, menuItemDescription, MenuItemCategoryTypes.fromKey(menuItemCategoryType), menuItemPrice, true);
+                    
+                    booking.getLinkedMenuItems().put(menuItem, menuItemAmount);
+                }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return bookings;
+        return new ArrayList<>(bookings.values());
     }
 
     // Map result set to BookingModel object
@@ -178,7 +205,7 @@ public class BookingRepository {
         return new BookingModel(id, eventTypeId, decorateOptIn, eventDate.toLocalDate(),
                                 venueAddress, adultCount, childCount, BookingStatusTypes.fromKey(status),
                                 createdDate.toLocalDateTime(), lastUpdateDate.toLocalDateTime(), userId,
-                                calculatedPrice);
+                                calculatedPrice, null);
     }
     
     private BookingModel mapRowToBookingIncludeEventTypeIncludeUser(ResultSet resultSet) throws SQLException {
@@ -214,6 +241,6 @@ public class BookingRepository {
         return new BookingModel(bookingId, eventTypeId, eventType, decorateOptIn, eventDate,
                                 venueAddress, adultCount, childCount, BookingStatusTypes.fromKey(status),
                                 createdDate, lastUpdateDate, userId, user,
-                                calculatedPrice);
+                                calculatedPrice, new HashMap<>());
     }
 }

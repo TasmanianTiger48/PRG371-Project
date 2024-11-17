@@ -6,9 +6,11 @@ package prg371.project.bookings.presentation.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import prg371.project.bookings.business.enums.BookingStatusTypes;
 import prg371.project.bookings.business.models.BookingModel;
+import prg371.project.bookings.business.models.MenuItemModel;
 import prg371.project.bookings.business.services.BookingService;
 
 /**
@@ -28,12 +30,13 @@ public class BookingController {
     }
     
     public Boolean addBooking(int id, int eventTypeId, String decorateOptInString, LocalDate eventDate, 
-        String venueAddress, int adultCount, int childCount, int status, String priceString, int userId
+        String venueAddress, int adultCount, int childCount, int status, String priceString, int userId,
+        Map<MenuItemModel, Integer> menuItems
     ) {
         try {
             return addBooking(eventTypeId, Boolean.parseBoolean(decorateOptInString), 
                 eventDate, venueAddress, adultCount, childCount, BookingStatusTypes.fromKey(status),
-                Double.parseDouble(priceString), userId);
+                Double.parseDouble(priceString), userId, menuItems);
         }
         catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Please enter valid numeric values for adults and children");
@@ -43,11 +46,11 @@ public class BookingController {
     
     public Boolean addBooking(int eventTypeId, boolean decorateOptIn,
         LocalDate eventDate, String venueAddress, int adults, int children,
-        BookingStatusTypes status, Double price, int userId
+        BookingStatusTypes status, Double price, int userId, Map<MenuItemModel, Integer> menuItems
     ) {
         BookingModel booking = new BookingModel(0, eventTypeId, decorateOptIn,
             eventDate, venueAddress, adults, children,
-            status, null, null, userId, price);
+            status, null, null, userId, price, menuItems);
 
         String message = booking.validate();
 
@@ -66,12 +69,13 @@ public class BookingController {
     }
     
     public Boolean updateBooking(int id, int eventTypeId, String decorateOptInString, LocalDate eventDate, 
-        String venueAddress, int adultCount, int childCount, int status, String priceString, int userId
+        String venueAddress, int adultCount, int childCount, int status, String priceString, int userId,
+        Map<MenuItemModel, Integer> menuItems
     ) {
         try {
             return updateBooking(id, eventTypeId, Boolean.parseBoolean(decorateOptInString), 
                 eventDate, venueAddress, adultCount, childCount, BookingStatusTypes.fromKey(status),
-                Double.parseDouble(priceString), userId);
+                Double.parseDouble(priceString), userId, menuItems);
         }
         catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Please enter valid numeric values for adults and children");
@@ -81,11 +85,11 @@ public class BookingController {
 
     public Boolean updateBooking(int id, int eventTypeId, boolean decorateOptIn,
         LocalDate eventDate, String venueAddress, int adults, int children,
-        BookingStatusTypes status, Double price, int userId
+        BookingStatusTypes status, Double price, int userId, Map<MenuItemModel, Integer> menuItems
     ) {
         BookingModel booking = new BookingModel(id, eventTypeId, decorateOptIn,
             eventDate, venueAddress, adults, children,
-            status, null, null, userId, price);
+            status, null, null, userId, price, menuItems);
 
         String message = booking.validate();
 
