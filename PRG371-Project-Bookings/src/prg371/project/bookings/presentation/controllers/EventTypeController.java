@@ -5,8 +5,10 @@
 package prg371.project.bookings.presentation.controllers;
 
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import prg371.project.bookings.business.models.EventTypeModel;
+import prg371.project.bookings.business.models.MenuItemModel;
 import prg371.project.bookings.business.services.EventTypeService;
 
 /**
@@ -87,6 +89,40 @@ public class EventTypeController {
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Failed to remove Event Type");
+            return false;
+        }
+    }
+    
+    public Boolean addLinkedMenuItem(int eventTypeId, int menuItemId) {
+        if (eventTypeId < 1) {
+            JOptionPane.showMessageDialog(null, "Please select a value for Event Type");
+            return false;
+        }
+        
+        if (menuItemId < 1) {
+            JOptionPane.showMessageDialog(null, "Please select a value for Menu Item");
+            return false;
+        }
+        
+        if (eventTypeService.addLinkedMenuItem(eventTypeId, menuItemId)) {
+            JOptionPane.showMessageDialog(null, "Linked Menu Item added successfully");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to add Linked Menu Item, it may already exist");
+            return false;
+        }
+    }
+    
+    public Map<EventTypeModel, List<MenuItemModel>> loadEventTypesLinkedMenuItems() {
+        return eventTypeService.getEventTypeMenuItems();
+    }
+    
+    public Boolean deleteLinkedMenuItem(int eventTypeId, int menuItemId) {
+        if (eventTypeService.removeLinkedMenuItem(eventTypeId, menuItemId)) {
+            JOptionPane.showMessageDialog(null, "Linked Menu Item removed successfully");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to remove Linked Menu Item");
             return false;
         }
     }

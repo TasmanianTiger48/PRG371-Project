@@ -47,6 +47,7 @@ public class ConnectionProvider {
     
     public void generateDB() {
         executeSQLQuery("DROP TABLE Users");
+        executeSQLQuery("DROP TABLE EventTypeMenuItems");
         executeSQLQuery("DROP TABLE EventTypes");
         executeSQLQuery("DROP TABLE MenuItems");
         
@@ -78,6 +79,52 @@ public class ConnectionProvider {
                 "Price DECIMAL(10, 2) NOT NULL," +
                 "IsActive BOOLEAN NOT NULL" +
             ")"
+        );
+        
+        executeSQLQuery(
+            "CREATE TABLE EventTypeMenuItems (" +
+                "Id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY," +
+                "MenuItemId INT NOT NULL," +
+                "EventTypeId INT NOT NULL," +
+                "FOREIGN KEY (MenuItemId) REFERENCES MenuItems(Id)," +
+                "FOREIGN KEY (EventTypeId) REFERENCES EventTypes(Id)" +
+            ")"
+        );
+    }
+    
+    public void seedDB() {
+        executeSQLQuery(
+            "INSERT INTO EventTypes (Description, BaseAmount, IsActive) VALUES " +
+            "('Birthday Party', 500.00, TRUE), " +
+            "('Wedding', 1200.00, TRUE), " +
+            "('Corporate Meeting', 800.00, TRUE), " +
+            "('Workshop', 300.00, TRUE), " +
+            "('Music Festival', 1500.00, FALSE), " +
+            "('Charity Event', 1000.00, TRUE), " +
+            "('Anniversary Celebration', 750.00, TRUE)"
+        );
+        
+        executeSQLQuery(
+            "INSERT INTO MenuItems (Name, Description, CategoryType, Price, IsActive) VALUES " +
+            "('Cheeseburger', 'A classic cheeseburger with cheddar cheese', 0, 5.99, TRUE), " +
+            "('Veggie Burger', 'A healthy vegetarian burger option', 0, 6.49, TRUE), " +
+            "('Fries', 'Crispy golden french fries', 1, 2.99, TRUE), " +
+            "('Caesar Salad', 'Fresh romaine lettuce with Caesar dressing', 2, 7.99, TRUE), " +
+            "('Soda', 'Refreshing carbonated soft drink', 3, 1.99, TRUE), " +
+            "('Steak', 'Grilled ribeye steak with a side of vegetables', 0, 24.99, FALSE), " +
+            "('Chocolate Cake', 'Rich chocolate cake with creamy frosting', 3, 4.99, TRUE)"
+        );
+        
+        executeSQLQuery(
+            "INSERT INTO EventTypeMenuItems (MenuItemId, EventTypeId) VALUES " +
+            "(1, 1), " +
+            "(2, 1), " +
+            "(3, 2), " +
+            "(4, 2), " +
+            "(5, 3), " +
+            "(1, 3), " +
+            "(6, 4), " +
+            "(7, 5) "
         );
     }
     

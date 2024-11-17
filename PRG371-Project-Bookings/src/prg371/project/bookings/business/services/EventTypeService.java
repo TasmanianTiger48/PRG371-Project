@@ -5,7 +5,9 @@
 package prg371.project.bookings.business.services;
 
 import java.util.List;
+import java.util.Map;
 import prg371.project.bookings.business.models.EventTypeModel;
+import prg371.project.bookings.business.models.MenuItemModel;
 import prg371.project.bookings.dataaccess.repositories.EventTypeRepository;
 
 /**
@@ -41,5 +43,21 @@ public class EventTypeService {
     
     public List<EventTypeModel> getEventTypes() {
         return eventTypeRepository.getActiveEventTypes();
+    }
+    
+    public boolean addLinkedMenuItem(int eventTypeId, int menuItemId) {
+        Integer existingLinkId = eventTypeRepository.getLinkedMenuItemIdByIds(eventTypeId, menuItemId);
+        if (existingLinkId != null) {
+            return false;
+        }
+        return eventTypeRepository.addLinkedMenuItem(eventTypeId, menuItemId);
+    }
+    
+    public boolean removeLinkedMenuItem(int eventTypeId, int menuItemId) {
+        return eventTypeRepository.removeLinkedMenuItem(eventTypeId, menuItemId);
+    }
+    
+    public Map<EventTypeModel, List<MenuItemModel>> getEventTypeMenuItems() {
+        return eventTypeRepository.getActiveEventTypeMenuItems();
     }
 }

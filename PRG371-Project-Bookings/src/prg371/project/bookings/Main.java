@@ -22,6 +22,7 @@ public class Main {
                 try {
                     db.connect();
                     db.generateDB();
+                    db.seedDB();
                     System.gc();
                 }
                 catch (ClassNotFoundException ex) {

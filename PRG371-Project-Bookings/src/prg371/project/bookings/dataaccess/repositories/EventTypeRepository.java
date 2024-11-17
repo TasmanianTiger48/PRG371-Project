@@ -10,8 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
 import prg371.project.bookings.business.models.EventTypeModel;
+import prg371.project.bookings.business.models.MenuItemModel;
 import prg371.project.bookings.dataaccess.ConnectionProvider;
 
 /**
@@ -142,6 +146,109 @@ public class EventTypeRepository {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public boolean addLinkedMenuItem(int eventTypeId, int menuItemId) {
+        String query = "INSERT INTO EventTypeMenuItems (EventTypeId, MenuItemId) VALUES (?, ?)";
+
+        try (Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, eventTypeId);
+            statement.setInt(2, menuItemId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean removeLinkedMenuItem(int eventTypeId, int menuItemId) {
+        String query = "DELETE EventTypeMenuItems WHERE EventTypeId = ? AND MenuItemId = ?";
+
+        try (Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, eventTypeId);
+            statement.setInt(2, menuItemId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public Integer getLinkedMenuItemIdByIds(int eventTypeId, int menuItemId) {
+        String query = "SELECT Id FROM EventTypes WHERE EventTypeId = ? AND MenuItemId = ?";
+
+        try (Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, eventTypeId);
+            statement.setInt(2, menuItemId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("Id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    public Map<EventTypeModel, List<MenuItemModel>> getActiveEventTypeMenuItems() {
+        Map<EventTypeModel, List<MenuItemModel>> eventTypeMap = new HashMap<>();
+        
+        String query = """
+        SELECT et.Id AS EventTypeId, et.Description AS EventTypeDescription, et.BaseAmount, et.IsActive AS EventTypeActive,
+                mi.Id AS MenuItemId, mi.Name AS MenuItemName, mi.Description AS MenuItemDescription, 
+                mi.CategoryType, mi.Price, mi.IsActive AS MenuItemActive
+            FROM EventTypes et
+            LEFT JOIN EventTypeMenuItems etmi ON et.Id = etmi.EventTypeId
+            LEFT JOIN MenuItems mi ON etmi.MenuItemId = mi.Id
+            WHERE et.IsActive = TRUE AND (mi.IsActive = TRUE OR mi.IsActive IS NULL)
+        """;
+        
+        try (Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int eventTypeId = resultSet.getInt("EventTypeId");
+                String eventTypeDescription = resultSet.getString("EventTypeDescription");
+                double baseAmount = resultSet.getDouble("BaseAmount");
+                boolean isActiveEventType = resultSet.getBoolean("EventTypeActive");
+
+                EventTypeModel eventType = new EventTypeModel(eventTypeId, eventTypeDescription, baseAmount, isActiveEventType);
+                eventTypeMap.putIfAbsent(eventType, new ArrayList<>());
+
+                // Extract MenuItem fields (can be null if no MenuItems are linked)
+                int menuItemId = resultSet.getInt("MenuItemId");
+                if (!resultSet.wasNull()) { // Check if MenuItem exists
+                    String menuItemName = resultSet.getString("MenuItemName");
+                    String menuItemDescription = resultSet.getString("MenuItemDescription");
+                    int categoryType = resultSet.getInt("CategoryType");
+                    double price = resultSet.getDouble("Price");
+                    boolean isActiveMenuItem = resultSet.getBoolean("MenuItemActive");
+
+                    MenuItemModel menuItem = new MenuItemModel(menuItemId, menuItemName, menuItemDescription, MenuItemCategoryTypes.fromKey(categoryType), price, isActiveMenuItem);
+                    eventTypeMap.get(eventType).add(menuItem);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return eventTypeMap;
     }
     
 }
