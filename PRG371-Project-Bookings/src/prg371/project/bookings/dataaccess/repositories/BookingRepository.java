@@ -17,9 +17,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import prg371.project.bookings.business.enums.BookingStatusTypes;
 import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
-import prg371.project.bookings.business.enums.UserTypes;
 import prg371.project.bookings.business.models.BookingModel;
 import prg371.project.bookings.business.models.EventTypeModel;
 import prg371.project.bookings.business.models.MenuItemModel;
@@ -33,60 +34,157 @@ import prg371.project.bookings.dataaccess.ConnectionProvider;
  */
 public class BookingRepository {
     
+    private final String queryAllBookingData = "SELECT b.Id AS BookingId, b.EventTypeId, b.DecorateOptIn, b.EventDate, b.VenueAddress, " +
+                "b.Adults, b.Children, b.Status, b.CreatedDate, b.LastUpdateDate, b.UserId, b.CalculatedPrice, " +
+                "u.Id AS UserId, u.Name AS UserName, u.Email AS UserEmail, u.Type AS UserType, " +
+                "e.Id AS EventTypeId, e.Description AS EventTypeDescription, e.BaseAmount AS EventTypeBaseAmount, " +
+                "m.Id AS MenuItemId, m.Name AS MenuItemName, m.Description AS MenuItemDescription, " +
+                "m.Price AS MenuItemPrice, m.CategoryType AS MenuItemCategoryType, " +
+                "bmi.Amount AS MenuItemAmount " +
+            "FROM Bookings b " +
+            "INNER JOIN Users u ON b.UserId = u.Id " +
+            "INNER JOIN EventTypes e ON b.EventTypeId = e.Id " +
+            "LEFT JOIN BookingMenuItems bmi ON b.Id = bmi.BookingId " +
+            "LEFT JOIN MenuItems m ON bmi.MenuItemId = m.Id";
+    
     public boolean addBooking(BookingModel booking) {
-        String query = "INSERT INTO Bookings (EventTypeId, DecorateOptIn, EventDate, VenueAddress, " +
+        String bookingQuery = "INSERT INTO Bookings (EventTypeId, DecorateOptIn, EventDate, VenueAddress, " +
                     "Adults, Children, Status, CreatedDate, LastUpdateDate, UserId, CalculatedPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        String linkedMenuItemsQuery = "INSERT INTO BookingMenuItems (BookingId, MenuItemId, Amount) VALUES (?, ?, ?)";
+        
+        Connection connection = null;
+        
+        try {
+            connection = ConnectionProvider.getConnection();
+            connection.setAutoCommit(false);
+            int bookingId = 0;
+                    
+            try (PreparedStatement bookingStatement = connection.prepareStatement(bookingQuery, Statement.RETURN_GENERATED_KEYS)) {
+                bookingStatement.setInt(1, booking.getEventTypeId());
+                bookingStatement.setBoolean(2, booking.isDecorateOptIn());
+                bookingStatement.setDate(3, Date.valueOf(booking.getEventDate()));
+                bookingStatement.setString(4, booking.getVenueAddress());
+                bookingStatement.setInt(5, booking.getAdultCount());
+                bookingStatement.setInt(6, booking.getChildCount());
+                bookingStatement.setInt(7, booking.getStatus().getKey());
+                bookingStatement.setTimestamp(8, Timestamp.valueOf(booking.getCreatedDate()));
+                bookingStatement.setTimestamp(9, Timestamp.valueOf(booking.getLastUpdateDate()));
+                bookingStatement.setInt(10, booking.getUserId());
+                bookingStatement.setDouble(11, booking.getCalculatedPrice());
 
-        try (Connection connection = ConnectionProvider.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+                int rowsAffected = bookingStatement.executeUpdate();
+                if (rowsAffected == 0)
+                    throw new SQLException("Failed to create Booking");
 
-            statement.setInt(1, booking.getEventTypeId());
-            statement.setBoolean(2, booking.isDecorateOptIn());
-            statement.setDate(3, Date.valueOf(booking.getEventDate()));
-            statement.setString(4, booking.getVenueAddress());
-            statement.setInt(5, booking.getAdultCount());
-            statement.setInt(6, booking.getChildCount());
-            statement.setInt(7, booking.getStatus().getKey());
-            statement.setTimestamp(8, Timestamp.valueOf(booking.getCreatedDate()));
-            statement.setTimestamp(9, Timestamp.valueOf(booking.getLastUpdateDate()));
-            statement.setInt(10, booking.getUserId());
-            statement.setDouble(11, booking.getCalculatedPrice());
-
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+                try (ResultSet generatedKeys = bookingStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        bookingId = generatedKeys.getInt(1);
+                    } else {
+                        throw new SQLException("Failed to get booking id");
+                    }
+                }
+            }
+            
+            try (PreparedStatement menuItemsStatement = connection.prepareStatement(linkedMenuItemsQuery)) {
+                for ( Map.Entry<MenuItemModel, Integer> item : booking.getLinkedMenuItems().entrySet()) {
+                    menuItemsStatement.setInt(1, bookingId);
+                    menuItemsStatement.setInt(2, item.getKey().getId());
+                    menuItemsStatement.setInt(3, item.getValue());
+                    menuItemsStatement.addBatch();
+                }
+                menuItemsStatement.executeBatch();
+            }
+            
+            connection.commit();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
             return false;
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
     public boolean updateBooking(BookingModel booking) {
-        String query = "UPDATE Bookings SET EventTypeId = ?, DecorateOptIn = ?, EventDate = ?, " +
+        String bookingQuery = "UPDATE Bookings SET EventTypeId = ?, DecorateOptIn = ?, EventDate = ?, " +
                     "VenueAddress = ?, Adults = ?, Children = ?, Status = ?, LastUpdateDate = ?, UserId = ?," +
                     " CalculatedPrice = ? WHERE Id = ?";
+        
+        String deleteLinkedMenuItemsQuery = "DELETE FROM BookingMenuItems WHERE BookingId = ?";
+        String insertLinkedMenuItemsQuery = "INSERT INTO BookingMenuItems (BookingId, MenuItemId, Amount) VALUES (?, ?, ?)";
+        
+        Connection connection = null;
+        
+        try {
+            connection = ConnectionProvider.getConnection();
+            connection.setAutoCommit(false);
+                
+            try (PreparedStatement bookingStatement = connection.prepareStatement(bookingQuery)) {
+                bookingStatement.setInt(1, booking.getEventTypeId());
+                bookingStatement.setBoolean(2, booking.isDecorateOptIn());
+                bookingStatement.setDate(3, Date.valueOf(booking.getEventDate()));
+                bookingStatement.setString(4, booking.getVenueAddress());
+                bookingStatement.setInt(5, booking.getAdultCount());
+                bookingStatement.setInt(6, booking.getChildCount());
+                bookingStatement.setInt(7, booking.getStatus().getKey());
+                bookingStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+                bookingStatement.setInt(9, booking.getUserId());
+                bookingStatement.setDouble(10, booking.getCalculatedPrice());
+                bookingStatement.setInt(11, booking.getId());
+                
+                int affectedRows = bookingStatement.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new SQLException("Failed to update Booking");
+                }
+            }
 
-        try (Connection connection = ConnectionProvider.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, booking.getEventTypeId());
-            statement.setBoolean(2, booking.isDecorateOptIn());
-            statement.setDate(3, Date.valueOf(booking.getEventDate()));
-            statement.setString(4, booking.getVenueAddress());
-            statement.setInt(5, booking.getAdultCount());
-            statement.setInt(6, booking.getChildCount());
-            statement.setInt(7, booking.getStatus().getKey());
-            statement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-            statement.setInt(9, booking.getUserId());
-            statement.setDouble(10, booking.getCalculatedPrice());
-            statement.setInt(11, booking.getId());
+            try (PreparedStatement deleteMenuItemsStatement = connection.prepareStatement(deleteLinkedMenuItemsQuery)) {
+                deleteMenuItemsStatement.setInt(1, booking.getId());
+                deleteMenuItemsStatement.executeUpdate();
+            }
             
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            try (PreparedStatement insertLinkedMenuItemsStatement = connection.prepareStatement(insertLinkedMenuItemsQuery)) {
+                for (Map.Entry<MenuItemModel, Integer> item : booking.getLinkedMenuItems().entrySet()) {
+                    insertLinkedMenuItemsStatement.setInt(1, booking.getId());
+                    insertLinkedMenuItemsStatement.setInt(2, item.getKey().getId());
+                    insertLinkedMenuItemsStatement.setInt(3, item.getValue());
+                    insertLinkedMenuItemsStatement.addBatch();
+                }
+                insertLinkedMenuItemsStatement.executeBatch();
+            }
+            
+            connection.commit();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
             return false;
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
@@ -134,20 +232,10 @@ public class BookingRepository {
     // Get all bookings for a specific user
     public List<BookingModel> getAllBookingsByUser(Integer userId) {
         Map<Integer, BookingModel> bookings = new HashMap<>();
-        String query = "SELECT b.Id AS BookingId, b.EventTypeId, b.DecorateOptIn, b.EventDate, b.VenueAddress, " +
-                            "b.Adults, b.Children, b.Status, b.CreatedDate, b.LastUpdateDate, b.UserId, b.CalculatedPrice, " +
-                            "u.Id AS UserId, u.Name AS UserName, u.Email AS UserEmail, u.Type AS UserType, " +
-                            "e.Id AS EventTypeId, e.Description AS EventTypeDescription, e.BaseAmount AS EventTypeBaseAmount, " +
-                            "m.Name AS MenuItemName, m.Description AS MenuItemDescription, m.Price AS MenuItemPrice, m.CategoryType AS MenuItemCategoryType," +
-                            " bmi.Amount AS MenuItemAmount" +
-                        "FROM Bookings b " +
-                        "INNER JOIN Users u ON b.UserId = u.Id " +
-                        "INNER JOIN EventTypes e ON b.EventTypeId = e.Id " +
-                        "LEFT JOIN BookingMenuItems bmi ON b.Id = bmi.BookingId " +
-                        "LEFT JOIN MenuItems m ON bmi.MenuItemId = m.Id";
+        String query = queryAllBookingData;
         
         if (userId != null) {
-            query += " WHERE UserId = ?";
+            query += " WHERE b.UserId = ?";
         }
         
         try (Connection connection = ConnectionProvider.getConnection();
@@ -186,8 +274,42 @@ public class BookingRepository {
 
         return new ArrayList<>(bookings.values());
     }
+    
+    public BookingModel getBookingById(int bookingId) {
+        String query = queryAllBookingData;
+        query += " WHERE b.Id = ?";
+        
+        try (Connection connection = ConnectionProvider.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
 
-    // Map result set to BookingModel object
+            statement.setInt(1, bookingId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                BookingModel booking = mapRowToBookingIncludeEventTypeIncludeUser(resultSet);
+                int menuItemId = resultSet.getInt("MenuItemId");
+                if (menuItemId != 0) {
+                    String menuItemName = resultSet.getString("MenuItemName");
+                    String menuItemDescription = resultSet.getString("MenuItemDescription");
+                    int menuItemAmount = resultSet.getInt("MenuItemAmount");
+                    int menuItemCategoryType = resultSet.getInt("MenuItemCategoryType");
+                    double menuItemPrice = resultSet.getDouble("MenuItemPrice");
+                    
+                    MenuItemModel menuItem = new MenuItemModel(menuItemId, menuItemName, menuItemDescription, MenuItemCategoryTypes.fromKey(menuItemCategoryType), menuItemPrice, true);
+                    
+                    booking.getLinkedMenuItems().put(menuItem, menuItemAmount);
+                }
+                
+                return booking;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
     private BookingModel mapRowToBooking(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("Id");
         int eventTypeId = resultSet.getInt("EventTypeId");

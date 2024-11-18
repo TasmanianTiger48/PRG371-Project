@@ -102,6 +102,29 @@ public class MenuItemRepository {
 
         return null;
     }
+    
+    public List<MenuItemModel> getMenuItemsByEventType(int eventTypeId) {
+        List<MenuItemModel> menuItems = new ArrayList<>();
+        String query = "SELECT mi.* FROM MenuItems mi INNER JOIN" +
+                    "EventTypeMenuItems etmi ON mi.Id = etmi.MenuItemId" +
+                    "WHERE etmi.EventTypeId = ?";
+
+        try (Connection connection = ConnectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, eventTypeId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                menuItems.add(mapRowToMenuItem(resultSet));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return menuItems;
+    }
 
     public List<MenuItemModel> getActiveMenuItems() {
         List<MenuItemModel> menuItems = new ArrayList<>();

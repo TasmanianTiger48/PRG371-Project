@@ -20,13 +20,27 @@ import prg371.project.bookings.business.services.BookingService;
 public class BookingController {
     
     private final BookingService bookingService;
+    private List<BookingModel> bookings;
+    private BookingModel currentBooking;
     
     public BookingController() {
         bookingService = new BookingService();
     }
     
+    public BookingModel getBookingById(Integer bookingId) {
+        for (BookingModel booking : bookings) {
+            if (bookingId.equals(booking.getId())) {
+                currentBooking = booking;
+                return currentBooking;
+            }
+        }
+        currentBooking = bookingService.getBookingById(bookingId);
+        return currentBooking;
+    }
+    
     public List<BookingModel> loadBookings() {
-        return bookingService.getBookings();
+        bookings = bookingService.getBookings();
+        return bookings;
     }
     
     public Boolean addBooking(int id, int eventTypeId, String decorateOptInString, LocalDate eventDate, 

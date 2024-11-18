@@ -4,13 +4,17 @@
  */
 package prg371.project.bookings.presentation.frames;
 
+import java.sql.Date;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import prg371.project.bookings.Main;
 import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
 import prg371.project.bookings.business.enums.UserTypes;
+import prg371.project.bookings.business.models.BookingModel;
 import prg371.project.bookings.business.models.EventTypeModel;
 import prg371.project.bookings.business.models.MenuItemModel;
+import prg371.project.bookings.presentation.controllers.BookingController;
 import prg371.project.bookings.presentation.controllers.EventTypeController;
 import prg371.project.bookings.presentation.controllers.MenuItemController;
 import prg371.project.bookings.presentation.controllers.UserController;
@@ -28,6 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
     private final UserController userController = new UserController();
     private final EventTypeController eventTypeController = new EventTypeController();
     private final MenuItemController menuItemController = new MenuItemController();
+    private final BookingController bookingController = new BookingController();
     
     public MainFrame() {
         initComponents();
@@ -45,6 +50,9 @@ public class MainFrame extends javax.swing.JFrame {
             MainTabs.remove(tabMenuItems);
             MainTabs.remove(tabLinkMenuItemsToEventTypes);
         }
+        
+        loadBookings();
+        loadBookingEventTypes();
     }
 
     /**
@@ -68,21 +76,6 @@ public class MainFrame extends javax.swing.JFrame {
         jCalModel2 = new com.jcalendar.model.JCalModel();
         MainTabs = new javax.swing.JTabbedPane();
         tabBookings = new javax.swing.JPanel();
-        lblBookingEventType = new javax.swing.JLabel();
-        lblBookingDecorateOptIn = new javax.swing.JLabel();
-        lblBookingEventDate = new javax.swing.JLabel();
-        lblBookingAdultCount = new javax.swing.JLabel();
-        lblBookingChildCount = new javax.swing.JLabel();
-        lblBookingCalculatedPrice = new javax.swing.JLabel();
-        lblBookingVenueAddress = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        txtBookingVenueAddress = new javax.swing.JTextArea();
-        cmbBookingEventType = new javax.swing.JComboBox<>();
-        ckbBookingDecorationOptIn = new javax.swing.JCheckBox();
-        calendarPane1 = new com.jcalendar.pane.calendar.CalendarPane();
-        txtBookingAdultCount = new javax.swing.JTextField();
-        txtBookingChildCount = new javax.swing.JTextField();
-        txtCalculatedPrice = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblBookingMenuItems = new javax.swing.JTable();
@@ -90,18 +83,35 @@ public class MainFrame extends javax.swing.JFrame {
         cmbBookingMenuItem = new javax.swing.JComboBox<>();
         lblBookingMenuItem = new javax.swing.JLabel();
         lblBookingMenuItemAmount = new javax.swing.JLabel();
-        txtMenuItemBookingAmount = new javax.swing.JTextField();
+        txtBookingMenuItemAmount = new javax.swing.JTextField();
         btnBookingAddMenuItem = new javax.swing.JButton();
         btnBookingUpdateMenuItem = new javax.swing.JButton();
         btnBookingRemoveMenuItem = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblBookings = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        btnBookingAdd = new javax.swing.JButton();
         btnBookingUpdate = new javax.swing.JButton();
+        btnBookingRemove1 = new javax.swing.JButton();
+        pnlBookingDetails = new javax.swing.JPanel();
         btnBookingRemove = new javax.swing.JButton();
+        btnBookingAdd = new javax.swing.JButton();
+        lblBookingDecorateOptIn = new javax.swing.JLabel();
+        lblBookingEventDate = new javax.swing.JLabel();
+        dtcBookingEventDate = new com.toedter.calendar.JDateChooser();
+        lblBookingEventType = new javax.swing.JLabel();
+        cmbBookingEventType = new javax.swing.JComboBox<>();
+        ckbBookingDecorationOptIn = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        lblBookingAdultCount = new javax.swing.JLabel();
+        lblBookingChildCount = new javax.swing.JLabel();
+        lblBookingCalculatedPrice = new javax.swing.JLabel();
+        lblBookingVenueAddress = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        txtBookingVenueAddress = new javax.swing.JTextArea();
+        txtBookingCalculatedPrice = new javax.swing.JTextField();
+        txtBookingChildCount = new javax.swing.JTextField();
+        txtBookingAdultCount = new javax.swing.JTextField();
         tabEventTypes = new javax.swing.JPanel();
         lblEventDescription = new javax.swing.JLabel();
         lblEventAmount = new javax.swing.JLabel();
@@ -148,41 +158,19 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        lblBookingEventType.setText("Event Type:");
-
-        lblBookingDecorateOptIn.setText("Do you want Decorations?");
-
-        lblBookingEventDate.setText("Event Date:");
-
-        lblBookingAdultCount.setText("Number of Adults:");
-
-        lblBookingChildCount.setText("Number of Children:");
-
-        lblBookingCalculatedPrice.setText("Calculated Price:");
-
-        lblBookingVenueAddress.setText("Venue Address:");
-
-        txtBookingVenueAddress.setColumns(20);
-        txtBookingVenueAddress.setRows(5);
-        jScrollPane6.setViewportView(txtBookingVenueAddress);
-
-        cmbBookingEventType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        txtCalculatedPrice.setEnabled(false);
-
         tblBookingMenuItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Id", "Menu Item", "Amount"
+                "Id", "Category", "Menu Item", "Amount", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -201,6 +189,11 @@ public class MainFrame extends javax.swing.JFrame {
         lblBookingMenuItemAmount.setText("Menu Item Amount:");
 
         btnBookingAddMenuItem.setText("Add Menu Item");
+        btnBookingAddMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingAddMenuItemActionPerformed(evt);
+            }
+        });
 
         btnBookingUpdateMenuItem.setText("Update Menu Item");
 
@@ -224,7 +217,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblBookingMenuItemAmount)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtMenuItemBookingAmount)))
+                                .addComponent(txtBookingMenuItemAmount)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(btnBookingAddMenuItem)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -245,7 +238,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblBookingMenuItemAmount)
-                    .addComponent(txtMenuItemBookingAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBookingMenuItemAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -257,9 +250,6 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
         );
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Booking Details");
 
         tblBookings.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -280,17 +270,20 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblBookings.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBookingsMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblBookings);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Current Bookings");
 
-        btnBookingAdd.setText("Add Booking");
-
         btnBookingUpdate.setText("Update Booking");
 
-        btnBookingRemove.setText("Cancel Booking");
+        btnBookingRemove1.setText("Cancel Booking");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -302,19 +295,16 @@ public class MainFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane4))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(426, 426, 426)
-                                .addComponent(jLabel3))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnBookingAdd)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBookingUpdate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBookingRemove)))
+                        .addGap(426, 426, 426)
+                        .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnBookingUpdate)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBookingRemove1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,12 +313,141 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBookingAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBookingUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBookingRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBookingRemove1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnBookingRemove.setText("Reset Booking");
+        btnBookingRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingRemoveActionPerformed(evt);
+            }
+        });
+
+        btnBookingAdd.setText("Add Booking");
+
+        lblBookingDecorateOptIn.setText("Do you want Decorations?");
+
+        lblBookingEventDate.setText("Event Date:");
+
+        lblBookingEventType.setText("Event Type:");
+
+        cmbBookingEventType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("Booking Details");
+
+        lblBookingAdultCount.setText("Number of Adults:");
+
+        lblBookingChildCount.setText("Number of Children:");
+
+        lblBookingCalculatedPrice.setText("Calculated Price:");
+
+        lblBookingVenueAddress.setText("Venue Address:");
+
+        txtBookingVenueAddress.setColumns(20);
+        txtBookingVenueAddress.setRows(5);
+        jScrollPane6.setViewportView(txtBookingVenueAddress);
+
+        txtBookingCalculatedPrice.setEnabled(false);
+
+        javax.swing.GroupLayout pnlBookingDetailsLayout = new javax.swing.GroupLayout(pnlBookingDetails);
+        pnlBookingDetails.setLayout(pnlBookingDetailsLayout);
+        pnlBookingDetailsLayout.setHorizontalGroup(
+            pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addComponent(btnBookingAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBookingRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addComponent(lblBookingEventType)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbBookingEventType, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addComponent(lblBookingDecorateOptIn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ckbBookingDecorationOptIn))
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addComponent(lblBookingEventDate)
+                        .addGap(18, 18, 18)
+                        .addComponent(dtcBookingEventDate, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(lblBookingVenueAddress)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBookingDetailsLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblBookingCalculatedPrice)
+                                    .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblBookingChildCount, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblBookingAdultCount)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtBookingAdultCount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtBookingChildCount)
+                                        .addComponent(txtBookingCalculatedPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane6)))
+                .addContainerGap())
+            .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                .addGap(229, 229, 229)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlBookingDetailsLayout.setVerticalGroup(
+            pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBookingEventType)
+                            .addComponent(cmbBookingEventType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBookingEventDate)
+                            .addComponent(dtcBookingEventDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBookingDecorateOptIn)
+                            .addComponent(ckbBookingDecorationOptIn))
+                        .addGap(110, 110, 110)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBookingAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBookingRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBookingAdultCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblBookingAdultCount))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBookingChildCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblBookingChildCount))
+                        .addGap(17, 17, 17)
+                        .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBookingCalculatedPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblBookingCalculatedPrice))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblBookingVenueAddress)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6)))
+                .addGap(302, 302, 302))
         );
 
         javax.swing.GroupLayout tabBookingsLayout = new javax.swing.GroupLayout(tabBookings);
@@ -340,40 +459,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(tabBookingsLayout.createSequentialGroup()
-                        .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(tabBookingsLayout.createSequentialGroup()
-                                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(tabBookingsLayout.createSequentialGroup()
-                                        .addComponent(lblBookingEventType)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cmbBookingEventType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(tabBookingsLayout.createSequentialGroup()
-                                        .addComponent(lblBookingDecorateOptIn)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(ckbBookingDecorationOptIn))
-                                    .addComponent(lblBookingEventDate)
-                                    .addComponent(calendarPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane6)
-                                    .addGroup(tabBookingsLayout.createSequentialGroup()
-                                        .addComponent(lblBookingAdultCount)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                                        .addComponent(txtBookingAdultCount, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabBookingsLayout.createSequentialGroup()
-                                        .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblBookingChildCount)
-                                            .addComponent(lblBookingCalculatedPrice)
-                                            .addComponent(lblBookingVenueAddress))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtBookingChildCount)
-                                            .addComponent(txtCalculatedPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))))
-                                .addGap(18, 18, 18))
-                            .addGroup(tabBookingsLayout.createSequentialGroup()
-                                .addGap(190, 190, 190)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(pnlBookingDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(245, 245, 245))
         );
@@ -381,45 +468,10 @@ public class MainFrame extends javax.swing.JFrame {
             tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabBookingsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(tabBookingsLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(tabBookingsLayout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBookingAdultCount)
-                                    .addComponent(txtBookingAdultCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBookingChildCount)
-                                    .addComponent(txtBookingChildCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(17, 17, 17)
-                                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(tabBookingsLayout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addComponent(lblBookingVenueAddress)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane6))
-                                    .addGroup(tabBookingsLayout.createSequentialGroup()
-                                        .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lblBookingCalculatedPrice)
-                                            .addComponent(txtCalculatedPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(169, 169, 169))))
-                            .addGroup(tabBookingsLayout.createSequentialGroup()
-                                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBookingEventType)
-                                    .addComponent(cmbBookingEventType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(tabBookingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBookingDecorateOptIn)
-                                    .addComponent(ckbBookingDecorationOptIn))
-                                .addGap(18, 18, 18)
-                                .addComponent(lblBookingEventDate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(calendarPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))
-                .addGap(18, 18, 18)
+                    .addComponent(pnlBookingDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(293, 293, 293))
         );
@@ -994,6 +1046,37 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MainTabsStateChanged
 
+    private void tblBookingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookingsMouseClicked
+        int selectedRow = tblBookings.getSelectedRow();
+        if (selectedRow != -1) {
+            int bookingId = (int)tblBookings.getValueAt(selectedRow, 0);
+            BookingModel booking = bookingController.getBookingById(bookingId);
+            //COLUMN 1
+            cmbBookingEventType.setSelectedIndex(
+                FrameUtils.getIndexByValue(cmbLinkEvent, booking.getEventType().getDescription())
+            );
+            ckbBookingDecorationOptIn.setSelected(booking.isDecorateOptIn());
+            dtcBookingEventDate.setDate(Date.valueOf(booking.getEventDate()));
+
+            //COLUMN 2
+            txtBookingAdultCount.setText(Integer.toString(booking.getAdultCount()));
+            txtBookingChildCount.setText(Integer.toString(booking.getChildCount()));
+            txtBookingCalculatedPrice.setText(Double.toString(booking.getCalculatedPrice()));
+            txtBookingVenueAddress.setText(booking.getVenueAddress());
+
+            //COLUMN 3
+            loadBookingMenuItems(booking.getEventTypeId(), booking);
+        }
+    }//GEN-LAST:event_tblBookingsMouseClicked
+
+    private void btnBookingRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingRemoveActionPerformed
+        clearBookingInputs();
+    }//GEN-LAST:event_btnBookingRemoveActionPerformed
+
+    private void btnBookingAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingAddMenuItemActionPerformed
+        
+    }//GEN-LAST:event_btnBookingAddMenuItemActionPerformed
+
     private void clearEventInputs() {
         txtEventDescription.setText("");
         txtEventAmount.setText("");
@@ -1061,6 +1144,75 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     
+    private void clearBookingInputs() {
+        //COLUMN 1
+        cmbBookingEventType.setSelectedIndex(-1);
+        ckbBookingDecorationOptIn.setSelected(false);
+        dtcBookingEventDate.setDate(null);
+        
+        //COLUMN 2
+        txtBookingAdultCount.setText("");
+        txtBookingChildCount.setText("");
+        txtBookingCalculatedPrice.setText("");
+        txtBookingVenueAddress.setText("");
+        
+        //COLUMN 3
+        cmbBookingMenuItem.removeAllItems();
+        txtBookingMenuItemAmount.setText("");
+        FrameUtils.clearTableRows(tblBookingMenuItems);
+    }
+    
+    private void loadBookings() {
+        FrameUtils.clearTableRows(tblBookings);
+        
+        DefaultTableModel model = (DefaultTableModel)tblBookings.getModel();
+        for (BookingModel booking : bookingController.loadBookings()) {
+            model.addRow(
+                new Object[] {
+                    booking.getId(),
+                    booking.getEventType().getDescription(),
+                    booking.getStatus().getDescription(),
+                    booking.isDecorateOptIn(),
+                    booking.getEventDate(),
+                    booking.getAdultCount(),
+                    booking.getChildCount(),
+                    booking.getCalculatedPrice(),
+                    booking.getVenueAddress()
+                }
+            );
+        }
+    }
+    
+    private void loadBookingEventTypes() {
+        cmbBookingEventType.removeAllItems();
+        for (EventTypeModel type : eventTypeController.loadEventTypes()) {
+            cmbBookingEventType.addItem(type.getDescription());
+        }
+    }
+    
+    private void loadBookingMenuItems(int eventTypeId, BookingModel booking) {
+        FrameUtils.clearTableRows(tblBookingMenuItems);
+        if (booking != null) {
+            DefaultTableModel model = (DefaultTableModel)tblBookingMenuItems.getModel();
+            for (Map.Entry<MenuItemModel, Integer> item : booking.getLinkedMenuItems().entrySet()) {
+                model.addRow(
+                    new Object[] {
+                        item.getKey().getId(),
+                        item.getKey().getCategoryType(),
+                        item.getKey().getName(),
+                        item.getValue(),
+                        booking.calculateMenuItemPrice(item.getKey())
+                    }
+                );
+            }
+        }
+            
+        cmbBookingMenuItem.removeAllItems();
+        for (MenuItemModel item : menuItemController.loadMenuItemsByEventType(eventTypeId)) {
+            cmbBookingMenuItem.addItem(item.getCategoryType().getDescription()+ " - " + item.getName());
+        }
+    }
+    
     
     /**
      * @param args the command line arguments
@@ -1106,6 +1258,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnBookingAdd;
     private javax.swing.JButton btnBookingAddMenuItem;
     private javax.swing.JButton btnBookingRemove;
+    private javax.swing.JButton btnBookingRemove1;
     private javax.swing.JButton btnBookingRemoveMenuItem;
     private javax.swing.JButton btnBookingUpdate;
     private javax.swing.JButton btnBookingUpdateMenuItem;
@@ -1126,13 +1279,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup6;
     private javax.swing.ButtonGroup buttonGroup7;
     private javax.swing.ButtonGroup buttonGroup8;
-    private com.jcalendar.pane.calendar.CalendarPane calendarPane1;
     private javax.swing.JCheckBox ckbBookingDecorationOptIn;
     private javax.swing.JComboBox<String> cmbBookingEventType;
     private javax.swing.JComboBox<String> cmbBookingMenuItem;
     private javax.swing.JComboBox<String> cmbLinkEvent;
     private javax.swing.JComboBox<String> cmbLinkMenuItem;
     private javax.swing.JComboBox<String> cmbMenuItemCategoryType;
+    private com.toedter.calendar.JDateChooser dtcBookingEventDate;
     private com.jcalendar.model.JCalModel jCalModel1;
     private com.jcalendar.model.JCalModel jCalModel2;
     private javax.swing.JLabel jLabel1;
@@ -1163,6 +1316,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblMenuItemDescription;
     private javax.swing.JLabel lblMenuItemName;
     private javax.swing.JLabel lblMenuItemPrice;
+    private javax.swing.JPanel pnlBookingDetails;
     private javax.swing.JPanel tabBookings;
     private javax.swing.JPanel tabEventTypes;
     private javax.swing.JPanel tabLinkMenuItemsToEventTypes;
@@ -1173,12 +1327,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTable tblEventTypes;
     private javax.swing.JTable tblMenuItems;
     private javax.swing.JTextField txtBookingAdultCount;
+    private javax.swing.JTextField txtBookingCalculatedPrice;
     private javax.swing.JTextField txtBookingChildCount;
+    private javax.swing.JTextField txtBookingMenuItemAmount;
     private javax.swing.JTextArea txtBookingVenueAddress;
-    private javax.swing.JTextField txtCalculatedPrice;
     private javax.swing.JTextField txtEventAmount;
     private javax.swing.JTextField txtEventDescription;
-    private javax.swing.JTextField txtMenuItemBookingAmount;
     private javax.swing.JTextField txtMenuItemDescription;
     private javax.swing.JTextField txtMenuItemName;
     private javax.swing.JTextField txtMenuItemPrice;

@@ -25,6 +25,10 @@ public class MenuItemController {
         return menuItemService.getMenuItems();
     }
     
+    public List<MenuItemModel> loadMenuItemsByEventType(int eventTypeId) {
+        return menuItemService.getMenuItemsByEventType(eventTypeId);
+    }
+    
     public Boolean addMenuItem(String name, String desc, int categoryType, String priceString) {
         try {
             addMenuItem(name, desc, MenuItemCategoryTypes.fromKey(categoryType), Double.parseDouble(priceString));

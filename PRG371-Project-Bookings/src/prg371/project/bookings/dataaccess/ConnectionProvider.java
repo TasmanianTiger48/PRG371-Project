@@ -167,6 +167,23 @@ public class ConnectionProvider {
         
         UserRepository userRepository = new UserRepository();
         userRepository.addUser(new UserModel("a", "a", "0000000000", "a", "a", UserTypes.Admin));
+        
+        executeSQLQuery(
+            "INSERT INTO Bookings (EventTypeId, DecorateOptIn, EventDate, VenueAddress, Adults, Children, Status, UserId, CalculatedPrice) VALUES " +
+            "(1, TRUE, '2024-12-15', '123 Main St, Springfield', 50, 20, 1, 1, 5000.00)," +
+            "(2, FALSE, '2024-12-20', '456 Elm St, Shelbyville', 30, 10, 2, 1, 3000.00)," +
+            "(3, TRUE, '2024-12-25', '789 Oak St, Capital City', 100, 40, 1, 1, 12000.00)"
+        );
+        
+        executeSQLQuery(
+            "INSERT INTO BookingMenuItems (BookingId, MenuItemId, Amount) VALUES " +
+            "(1, 1, 10)," +
+            "(1, 2, 20)," +
+            "(2, 3, 15)," +
+            "(3, 1, 30)," +
+            "(3, 4, 25)"
+        );
+        
     }
     
     private void executeSQLQuery(String query) {

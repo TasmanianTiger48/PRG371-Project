@@ -87,51 +87,8 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jPanel2" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="lblBookingEventType" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="cmbBookingEventType" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="lblBookingDecorateOptIn" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="ckbBookingDecorationOptIn" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="lblBookingEventDate" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="calendarPane1" alignment="0" min="-2" pref="253" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jScrollPane6" alignment="0" max="32767" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="lblBookingAdultCount" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace pref="17" max="32767" attributes="0"/>
-                                              <Component id="txtBookingAdultCount" min="-2" pref="209" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblBookingChildCount" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblBookingCalculatedPrice" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblBookingVenueAddress" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="txtBookingChildCount" max="32767" attributes="0"/>
-                                                  <Component id="txtCalculatedPrice" pref="209" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="pnlBookingDetails" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -143,58 +100,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanel1" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblBookingAdultCount" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtBookingAdultCount" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblBookingChildCount" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtBookingChildCount" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                              <Component id="lblBookingVenueAddress" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jScrollPane6" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="3" attributes="0">
-                                                  <Component id="lblBookingCalculatedPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="txtCalculatedPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="169" pref="169" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblBookingEventType" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cmbBookingEventType" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblBookingDecorateOptIn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="ckbBookingDecorationOptIn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="lblBookingEventDate" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="calendarPane1" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
+                          <Component id="pnlBookingDetails" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="293" max="-2" attributes="0"/>
                   </Group>
@@ -202,84 +112,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="lblBookingEventType">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Event Type:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBookingDecorateOptIn">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Do you want Decorations?"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBookingEventDate">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Event Date:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBookingAdultCount">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Number of Adults:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBookingChildCount">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Number of Children:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBookingCalculatedPrice">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Calculated Price:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBookingVenueAddress">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Venue Address:"/>
-              </Properties>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane6">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtBookingVenueAddress">
-                  <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="rows" type="int" value="5"/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JComboBox" name="cmbBookingEventType">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="ckbBookingDecorationOptIn">
-            </Component>
-            <Component class="com.jcalendar.pane.calendar.CalendarPane" name="calendarPane1">
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtBookingAdultCount">
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtBookingChildCount">
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtCalculatedPrice">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </Component>
             <Container class="javax.swing.JPanel" name="jPanel1">
 
               <Layout>
@@ -300,7 +132,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="lblBookingMenuItemAmount" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="txtMenuItemBookingAmount" max="32767" attributes="0"/>
+                                          <Component id="txtBookingMenuItemAmount" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -329,7 +161,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblBookingMenuItemAmount" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtMenuItemBookingAmount" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtBookingMenuItemAmount" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -358,14 +190,26 @@
                     <Component class="javax.swing.JTable" name="tblBookingMenuItems">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="3" rowCount="4">
+                          <Table columnCount="5" rowCount="4">
                             <Column editable="false" title="Id" type="java.lang.Object"/>
+                            <Column editable="false" title="Category" type="java.lang.Object"/>
                             <Column editable="false" title="Menu Item" type="java.lang.Object"/>
                             <Column editable="false" title="Amount" type="java.lang.Object"/>
+                            <Column editable="false" title="Price" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -423,12 +267,15 @@
                     <Property name="text" type="java.lang.String" value="Menu Item Amount:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtMenuItemBookingAmount">
+                <Component class="javax.swing.JTextField" name="txtBookingMenuItemAmount">
                 </Component>
                 <Component class="javax.swing.JButton" name="btnBookingAddMenuItem">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Add Menu Item"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingAddMenuItemActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnBookingUpdateMenuItem">
                   <Properties>
@@ -442,14 +289,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="jLabel2">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Booking Details"/>
-              </Properties>
-            </Component>
             <Container class="javax.swing.JPanel" name="jPanel2">
 
               <Layout>
@@ -462,24 +301,19 @@
                                   <Component id="jScrollPane4" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="426" max="-2" attributes="0"/>
-                                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="btnBookingAdd" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="btnBookingUpdate" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="btnBookingRemove" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <EmptySpace min="-2" pref="426" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnBookingUpdate" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="btnBookingRemove1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -490,9 +324,8 @@
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnBookingAdd" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                               <Component id="btnBookingUpdate" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="btnBookingRemove" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="btnBookingRemove1" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jScrollPane4" min="-2" pref="285" max="-2" attributes="0"/>
@@ -577,6 +410,9 @@
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblBookingsMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -589,20 +425,244 @@
                     <Property name="text" type="java.lang.String" value="Current Bookings"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnBookingAdd">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Add Booking"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="btnBookingUpdate">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Update Booking"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnBookingRemove">
+                <Component class="javax.swing.JButton" name="btnBookingRemove1">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cancel Booking"/>
                   </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="pnlBookingDetails">
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnBookingAdd" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="btnBookingRemove" min="-2" pref="114" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblBookingEventType" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="cmbBookingEventType" min="-2" pref="175" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblBookingDecorateOptIn" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="ckbBookingDecorationOptIn" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblBookingEventDate" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="dtcBookingEventDate" min="-2" pref="176" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                          <Component id="lblBookingVenueAddress" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblBookingCalculatedPrice" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                                  <Component id="lblBookingChildCount" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblBookingAdultCount" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="txtBookingAdultCount" alignment="1" min="-2" pref="209" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="txtBookingChildCount" max="32767" attributes="0"/>
+                                                  <Component id="txtBookingCalculatedPrice" min="-2" pref="209" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane6" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="229" max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblBookingEventType" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmbBookingEventType" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblBookingEventDate" min="-2" max="-2" attributes="0"/>
+                                      <Component id="dtcBookingEventDate" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblBookingDecorateOptIn" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ckbBookingDecorationOptIn" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="btnBookingAdd" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                      <Component id="btnBookingRemove" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="txtBookingAdultCount" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblBookingAdultCount" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="txtBookingChildCount" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblBookingChildCount" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="txtBookingCalculatedPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblBookingCalculatedPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblBookingVenueAddress" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane6" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="302" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JButton" name="btnBookingRemove">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reset Booking"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingRemoveActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnBookingAdd">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Add Booking"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblBookingDecorateOptIn">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Do you want Decorations?"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblBookingEventDate">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Event Date:"/>
+                  </Properties>
+                </Component>
+                <Component class="com.toedter.calendar.JDateChooser" name="dtcBookingEventDate">
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblBookingEventType">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Event Type:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cmbBookingEventType">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="Item 1"/>
+                        <StringItem index="1" value="Item 2"/>
+                        <StringItem index="2" value="Item 3"/>
+                        <StringItem index="3" value="Item 4"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="ckbBookingDecorationOptIn">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel2">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="18" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Booking Details"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblBookingAdultCount">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Number of Adults:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblBookingChildCount">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Number of Children:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblBookingCalculatedPrice">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Calculated Price:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblBookingVenueAddress">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Venue Address:"/>
+                  </Properties>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane6">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="txtBookingVenueAddress">
+                      <Properties>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="rows" type="int" value="5"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JTextField" name="txtBookingCalculatedPrice">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtBookingChildCount">
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtBookingAdultCount">
                 </Component>
               </SubComponents>
             </Container>

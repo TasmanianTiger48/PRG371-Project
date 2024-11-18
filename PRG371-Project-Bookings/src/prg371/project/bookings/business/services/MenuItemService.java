@@ -42,4 +42,8 @@ public class MenuItemService {
     public List<MenuItemModel> getMenuItems() {
         return menuItemRepository.getActiveMenuItems();
     }
+    
+    public List<MenuItemModel> getMenuItemsByEventType(int eventTypeId) {
+        return menuItemRepository.getMenuItemsByEventType(eventTypeId);
+    }
 }

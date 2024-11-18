@@ -43,4 +43,9 @@ public class BookingService {
         }
         return bookingRepository.getAllBookingsByUser(Main.currentUser.getUserId());
     }
+    
+    public BookingModel getBookingById(int bookingId) {
+        return bookingRepository.getBookingById(bookingId);
+    }
+    
 }

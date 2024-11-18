@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import prg371.project.bookings.business.enums.BookingStatusTypes;
+import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
 
 /**
  *
@@ -131,6 +132,10 @@ public class BookingModel {
         this.childCount = childrenCount;
     }
 
+    public int getTotalPeopleCount() {
+        return childCount + adultCount;
+    }
+    
     public BookingStatusTypes getStatus() {
         return status;
     }
@@ -189,6 +194,21 @@ public class BookingModel {
     
     public String validate() {
         return null;
+    }
+    
+    public double calculateMenuItemPrice(MenuItemModel menuItem) {
+        if (linkedMenuItems.containsKey(menuItem)) {
+            int amount = linkedMenuItems.get(menuItem);
+            double result = menuItem.getPrice() * amount;
+            
+            if (getTotalPeopleCount() > 50 && menuItem.getCategoryType() == MenuItemCategoryTypes.AdultMeal) {
+                result = result - (result * 0.15);
+            }
+            
+            return result;
+        } else {
+            return 0;
+        }
     }
     
 }
