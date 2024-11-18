@@ -86,6 +86,10 @@ public class MenuItemModel {
         this.isActive = isActive;
     }
     
+    public String getDisplayText() {
+        return this.categoryType.getDescription()+ " - " + this.name;
+    }
+    
     public String validate() {
         if (this.name == null
             || this.name.isEmpty()

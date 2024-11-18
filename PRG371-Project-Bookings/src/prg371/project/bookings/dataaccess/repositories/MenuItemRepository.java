@@ -105,8 +105,8 @@ public class MenuItemRepository {
     
     public List<MenuItemModel> getMenuItemsByEventType(int eventTypeId) {
         List<MenuItemModel> menuItems = new ArrayList<>();
-        String query = "SELECT mi.* FROM MenuItems mi INNER JOIN" +
-                    "EventTypeMenuItems etmi ON mi.Id = etmi.MenuItemId" +
+        String query = "SELECT mi.* FROM MenuItems mi INNER JOIN " +
+                    "EventTypeMenuItems etmi ON mi.Id = etmi.MenuItemId " +
                     "WHERE etmi.EventTypeId = ?";
 
         try (Connection connection = ConnectionProvider.getConnection();

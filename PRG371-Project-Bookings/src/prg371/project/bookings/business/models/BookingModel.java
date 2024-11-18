@@ -23,7 +23,7 @@ public class BookingModel {
     private String venueAddress;
     private int adultCount;
     private int childCount;
-    private BookingStatusTypes status;
+    private BookingStatusTypes status = BookingStatusTypes.Pending;
     private LocalDateTime createdDate;
     private LocalDateTime lastUpdateDate;
     private int userId;
@@ -50,6 +50,7 @@ public class BookingModel {
         this.user = user;
         this.calculatedPrice = calculatedPrice;
         this.linkedMenuItems = linkedMenuItems;
+        calculatePrice();
     }
     
     public BookingModel(int id, int eventTypeId, boolean decorateOptIn, LocalDate eventDate, String venueAddress, int adultCount, int childrenCount, BookingStatusTypes status, LocalDateTime createdDate, LocalDateTime lastUpdateDate, int userId, double calculatedPrice, Map<MenuItemModel, Integer> linkedMenuItems) {
@@ -66,6 +67,19 @@ public class BookingModel {
         this.userId = userId;
         this.calculatedPrice = calculatedPrice;
         this.linkedMenuItems = linkedMenuItems;
+        calculatePrice();
+    }
+    
+    public BookingModel(int eventTypeId, boolean decorateOptIn, LocalDate eventDate, String venueAddress, int adultCount, int childrenCount, int userId, Map<MenuItemModel, Integer> linkedMenuItems) {
+        this.eventTypeId = eventTypeId;
+        this.decorateOptIn = decorateOptIn;
+        this.eventDate = eventDate;
+        this.venueAddress = venueAddress;
+        this.adultCount = adultCount;
+        this.childCount = childrenCount;
+        this.userId = userId;
+        this.linkedMenuItems = linkedMenuItems;
+        calculatePrice();
     }
 
     public int getId() {
@@ -90,6 +104,7 @@ public class BookingModel {
 
     public void setEventType(EventTypeModel eventType) {
         this.eventType = eventType;
+        calculatePrice();
     }
 
     public boolean isDecorateOptIn() {
@@ -190,9 +205,54 @@ public class BookingModel {
 
     public void setLinkedMenuItems(Map<MenuItemModel, Integer> linkedMenuItems) {
         this.linkedMenuItems = linkedMenuItems;
+        calculatePrice();
+    }
+    
+    public void calculatePrice() {
+        double price = 0;
+        
+        if (linkedMenuItems != null) {
+            for(MenuItemModel menuItem : linkedMenuItems.keySet()) {
+                price += calculateMenuItemPrice(menuItem);
+            }
+        }
+        
+        if (this.eventType != null) {
+            price += this.eventType.getBaseAmount();
+        }
+        
+        this.calculatedPrice = price;
     }
     
     public String validate() {
+        if (eventTypeId == 0) {
+            return "Please select a Event Type";
+        }
+        
+        if (eventDate == null) {
+            return "Please select a Event Date";
+        }
+        
+        if (venueAddress == null || venueAddress.isEmpty()) {
+            return "Please select a Venue Address";
+        }
+        
+        if (this.adultCount < 0) {
+            return "Please enter a valid amount for adults";
+        }
+        
+        if (this.childCount < 0) {
+            return "Please enter a valid amount for children";
+        }
+        
+        if (getTotalPeopleCount() < 1) {
+            return "Please add people to the event";
+        }
+        
+        if (this.linkedMenuItems == null || this.linkedMenuItems.size() < 1) {
+            return "Please add menu items to the event";
+        }
+        
         return null;
     }
     

@@ -49,7 +49,7 @@ public class BookingRepository {
     
     public boolean addBooking(BookingModel booking) {
         String bookingQuery = "INSERT INTO Bookings (EventTypeId, DecorateOptIn, EventDate, VenueAddress, " +
-                    "Adults, Children, Status, CreatedDate, LastUpdateDate, UserId, CalculatedPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "Adults, Children, Status, CreatedDate, LastUpdateDate, UserId, CalculatedPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         String linkedMenuItemsQuery = "INSERT INTO BookingMenuItems (BookingId, MenuItemId, Amount) VALUES (?, ?, ?)";
         
@@ -68,8 +68,8 @@ public class BookingRepository {
                 bookingStatement.setInt(5, booking.getAdultCount());
                 bookingStatement.setInt(6, booking.getChildCount());
                 bookingStatement.setInt(7, booking.getStatus().getKey());
-                bookingStatement.setTimestamp(8, Timestamp.valueOf(booking.getCreatedDate()));
-                bookingStatement.setTimestamp(9, Timestamp.valueOf(booking.getLastUpdateDate()));
+                bookingStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+                bookingStatement.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
                 bookingStatement.setInt(10, booking.getUserId());
                 bookingStatement.setDouble(11, booking.getCalculatedPrice());
 

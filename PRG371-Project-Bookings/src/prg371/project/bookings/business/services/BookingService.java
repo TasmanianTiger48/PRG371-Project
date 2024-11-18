@@ -4,6 +4,7 @@
  */
 package prg371.project.bookings.business.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import prg371.project.bookings.Main;
 import prg371.project.bookings.business.enums.UserTypes;
@@ -48,4 +49,7 @@ public class BookingService {
         return bookingRepository.getBookingById(bookingId);
     }
     
+    public BookingModel getBookingByDate(LocalDate date) {
+        return bookingRepository.getBookingByDate(date);
+    }
 }

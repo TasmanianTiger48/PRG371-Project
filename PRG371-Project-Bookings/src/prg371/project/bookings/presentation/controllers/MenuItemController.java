@@ -16,13 +16,33 @@ import prg371.project.bookings.business.services.MenuItemService;
  */
 public class MenuItemController {
     private final MenuItemService menuItemService;
+    private List<MenuItemModel> menuItems;
     
     public MenuItemController() {
         menuItemService = new MenuItemService();
     }
     
+    public MenuItemModel getMenuItemByDisplayText(String text) {
+        for (MenuItemModel menuItem : menuItems) {
+            if (text.equals(menuItem.getDisplayText())) {
+                return menuItem;
+            }
+        }
+        return null;
+    }
+            
+    public MenuItemModel getMenuItemById(Integer menuItemId) {
+        for (MenuItemModel menuItem : menuItems) {
+            if (menuItemId.equals(menuItem.getId())) {
+                return menuItem;
+            }
+        }
+        return null;
+    }
+    
     public List<MenuItemModel> loadMenuItems() {
-        return menuItemService.getMenuItems();
+        menuItems = menuItemService.getMenuItems();
+        return menuItems;
     }
     
     public List<MenuItemModel> loadMenuItemsByEventType(int eventTypeId) {

@@ -5,10 +5,13 @@
 package prg371.project.bookings.presentation.frames;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import prg371.project.bookings.Main;
+import prg371.project.bookings.business.enums.BookingStatusTypes;
 import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
 import prg371.project.bookings.business.enums.UserTypes;
 import prg371.project.bookings.business.models.BookingModel;
@@ -177,6 +180,11 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblBookingMenuItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBookingMenuItemsMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tblBookingMenuItems);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -196,8 +204,18 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnBookingUpdateMenuItem.setText("Update Menu Item");
+        btnBookingUpdateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingUpdateMenuItemActionPerformed(evt);
+            }
+        });
 
         btnBookingRemoveMenuItem.setText("Remove Menu Item");
+        btnBookingRemoveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingRemoveMenuItemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -284,6 +302,11 @@ public class MainFrame extends javax.swing.JFrame {
         btnBookingUpdate.setText("Update Booking");
 
         btnBookingRemove1.setText("Cancel Booking");
+        btnBookingRemove1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingRemove1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -316,7 +339,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(btnBookingUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBookingRemove1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -328,6 +351,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnBookingAdd.setText("Add Booking");
+        btnBookingAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingAddActionPerformed(evt);
+            }
+        });
 
         lblBookingDecorateOptIn.setText("Do you want Decorations?");
 
@@ -336,6 +364,11 @@ public class MainFrame extends javax.swing.JFrame {
         lblBookingEventType.setText("Event Type:");
 
         cmbBookingEventType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbBookingEventType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBookingEventTypeItemStateChanged(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Booking Details");
@@ -386,7 +419,6 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(lblBookingVenueAddress)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBookingDetailsLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblBookingCalculatedPrice)
                                     .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,7 +505,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(pnlBookingDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(293, 293, 293))
+                .addGap(245, 245, 245))
         );
 
         MainTabs.addTab("Bookings", tabBookings);
@@ -857,14 +889,13 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(MainTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 1039, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(MainTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(MainTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -1074,12 +1105,199 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBookingRemoveActionPerformed
 
     private void btnBookingAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingAddMenuItemActionPerformed
+        String selectedMenuItemDesc = cmbBookingMenuItem.getSelectedItem().toString();
+        String selectedAmountString = txtBookingMenuItemAmount.getText();
         
+        if (selectedMenuItemDesc == null || selectedMenuItemDesc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a menu Item");
+            return;
+        }
+        
+        int selectedAmount;
+        try {
+            selectedAmount = Integer.parseInt(selectedAmountString);
+            if (selectedAmount < 1) {
+                JOptionPane.showMessageDialog(this, "Enter a number greater than 0 for amount");
+                return;
+            }    
+        } catch(NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Enter a valid numeric number");
+            return;
+        }
+        
+        MenuItemModel selectedMenuItem = null;
+        for (MenuItemModel menuItem : menuItemController.loadMenuItems()) {
+            if (selectedMenuItemDesc.equals(menuItem.getDisplayText())) {
+                selectedMenuItem = menuItem;
+            }
+        }
+        
+        if (selectedMenuItem != null) {
+            if (!bookingMenuItemAlreadyExists(selectedMenuItem)) {
+                DefaultTableModel model = (DefaultTableModel)tblBookingMenuItems.getModel();
+                model.addRow(
+                    new Object[] {
+                        null,
+                        selectedMenuItem.getCategoryType(),
+                        selectedMenuItem.getName(),
+                        selectedAmount,
+                        null
+                    }
+                );
+                JOptionPane.showMessageDialog(this, "Menu Item added Successfully");
+                clearBookingMenuItemInputs();
+            } else {
+                JOptionPane.showMessageDialog(this, "Menu Item Already Added");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a valid Menu Item");
+        }
     }//GEN-LAST:event_btnBookingAddMenuItemActionPerformed
+
+    private void cmbBookingEventTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBookingEventTypeItemStateChanged
+        cmbBookingMenuItem.removeAllItems();
+        if (cmbBookingEventType.getSelectedItem() != null) {
+            EventTypeModel eventType = eventTypeController.getEventTypeByDescription(cmbBookingEventType.getSelectedItem().toString());
+            if (eventType != null) {
+                for (MenuItemModel item : menuItemController.loadMenuItemsByEventType(eventType.getId())) {
+                    cmbBookingMenuItem.addItem(item.getDisplayText());
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_cmbBookingEventTypeItemStateChanged
+
+    private void tblBookingMenuItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookingMenuItemsMouseClicked
+        int selectedRow = tblBookingMenuItems.getSelectedRow();
+        if (selectedRow != -1) {
+            String menuItemCategory = tblBookingMenuItems.getValueAt(selectedRow, 1).toString();
+            String menuItemName = tblBookingMenuItems.getValueAt(selectedRow, 2).toString();
+            int menuItemAmount = (int)tblBookingMenuItems.getValueAt(selectedRow, 3);
+            int menuItemIndex = FrameUtils.getIndexByValue(cmbBookingMenuItem, menuItemCategory + " - " + menuItemName);
+
+            if (menuItemIndex == -1) {
+                JOptionPane.showMessageDialog(this, "Please note the selected Menu Item is no longer available, please remove it");
+                return;
+            }
+
+            cmbBookingMenuItem.setSelectedIndex(menuItemIndex);
+            txtBookingMenuItemAmount.setText(Integer.toString(menuItemAmount));
+        }
+    }//GEN-LAST:event_tblBookingMenuItemsMouseClicked
+
+    private void btnBookingUpdateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingUpdateMenuItemActionPerformed
+        int selectedRow = tblBookingMenuItems.getSelectedRow();
+        if (selectedRow != -1) {
+            String selectedMenuItemDesc = cmbBookingMenuItem.getSelectedItem().toString();
+            String selectedAmountString = txtBookingMenuItemAmount.getText();
+
+            if (selectedMenuItemDesc == null || selectedMenuItemDesc.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please select a menu Item");
+                return;
+            }
+
+            int selectedAmount;
+            try {
+                selectedAmount = Integer.parseInt(selectedAmountString);
+                if (selectedAmount < 1) {
+                    JOptionPane.showMessageDialog(this, "Enter a number greater than 0 for amount");
+                    return;
+                }
+            } catch(NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Enter a valid numeric number");
+                return;
+            }
+
+            MenuItemModel selectedMenuItem = null;
+            for (MenuItemModel menuItem : menuItemController.loadMenuItems()) {
+                if (selectedMenuItemDesc.equals(menuItem.getDisplayText())) {
+                    selectedMenuItem = menuItem;
+                }
+            }
+
+            if (selectedMenuItem != null) {
+                DefaultTableModel model = (DefaultTableModel)tblBookingMenuItems.getModel();
+                int categoryColumnIndex = 1;
+                int nameColumnIndex = 2;
+                for (int row = 0; row < model.getRowCount(); row++) {
+                    Object categoryValue = model.getValueAt(row, categoryColumnIndex);
+                    Object nameValue = model.getValueAt(row, nameColumnIndex);
+
+                    if (nameValue.equals(selectedMenuItem.getName()) && categoryValue.equals(selectedMenuItem.getCategoryType().getDescription())) {
+                        model.setValueAt(selectedMenuItem.getCategoryType().getDescription(), row, 1);
+                        model.setValueAt(selectedMenuItem.getName(), row, 2);
+                        model.setValueAt(selectedAmount, row, 3);
+                        model.setValueAt(null, row, 4);
+                    }
+                }
+                JOptionPane.showMessageDialog(this, "Menu Item Updated");
+                clearBookingMenuItemInputs();
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a valid Menu Item");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to update");
+        }
+    }//GEN-LAST:event_btnBookingUpdateMenuItemActionPerformed
+
+    private void btnBookingRemoveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingRemoveMenuItemActionPerformed
+        int selectedRow = tblBookingMenuItems.getSelectedRow();
+        if (selectedRow != -1) {
+            DefaultTableModel model = (DefaultTableModel)tblBookingMenuItems.getModel();
+            model.removeRow(selectedRow);
+            clearBookingMenuItemInputs();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to remove");
+        }
+    }//GEN-LAST:event_btnBookingRemoveMenuItemActionPerformed
+
+    private void btnBookingRemove1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingRemove1ActionPerformed
+        int selectedRow = tblBookings.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int)tblBookings.getValueAt(selectedRow, 0);
+            if (bookingController.deleteBooking(id)) {
+                clearBookingInputs();
+                loadBookings();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to remove");
+        }
+    }//GEN-LAST:event_btnBookingRemove1ActionPerformed
+
+    private void btnBookingAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingAddActionPerformed
+        if (cmbBookingEventType.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Please select a Event Type");
+            return;
+        }
+        EventTypeModel eventType = eventTypeController.getEventTypeByDescription(cmbBookingEventType.getSelectedItem().toString());
+        Boolean decorationOptIn = ckbBookingDecorationOptIn.isSelected();
+        java.util.Date eventDate = dtcBookingEventDate.getDate();
+        String venueAddress = txtBookingVenueAddress.getText();
+        String adults = txtBookingAdultCount.getText();
+        String children = txtBookingChildCount.getText();
+        
+        if (bookingController.addBooking(
+            eventType.getId(),
+            decorationOptIn,
+            eventDate,
+            venueAddress,
+            adults,
+            children,
+            getBookingMenuItems()
+        )) {
+            clearBookingInputs();
+            loadBookings();
+        }
+    }//GEN-LAST:event_btnBookingAddActionPerformed
 
     private void clearEventInputs() {
         txtEventDescription.setText("");
         txtEventAmount.setText("");
+    }
+    
+    private void clearBookingMenuItemInputs() {
+        cmbBookingMenuItem.setSelectedIndex(-1);
+        txtBookingMenuItemAmount.setText("");
     }
     
     private void loadEventTypes() {
@@ -1096,7 +1314,8 @@ public class MainFrame extends javax.swing.JFrame {
             );
             
             cmbLinkEvent.addItem(event.getDescription());
-        }
+        }        
+        loadBookingEventTypes();
     }
     
     private void clearMenuItemInputs() {
@@ -1157,8 +1376,7 @@ public class MainFrame extends javax.swing.JFrame {
         txtBookingVenueAddress.setText("");
         
         //COLUMN 3
-        cmbBookingMenuItem.removeAllItems();
-        txtBookingMenuItemAmount.setText("");
+        clearBookingMenuItemInputs();
         FrameUtils.clearTableRows(tblBookingMenuItems);
     }
     
@@ -1198,7 +1416,7 @@ public class MainFrame extends javax.swing.JFrame {
                 model.addRow(
                     new Object[] {
                         item.getKey().getId(),
-                        item.getKey().getCategoryType(),
+                        item.getKey().getCategoryType().getDescription(),
                         item.getKey().getName(),
                         item.getValue(),
                         booking.calculateMenuItemPrice(item.getKey())
@@ -1206,13 +1424,42 @@ public class MainFrame extends javax.swing.JFrame {
                 );
             }
         }
-            
-        cmbBookingMenuItem.removeAllItems();
-        for (MenuItemModel item : menuItemController.loadMenuItemsByEventType(eventTypeId)) {
-            cmbBookingMenuItem.addItem(item.getCategoryType().getDescription()+ " - " + item.getName());
-        }
     }
     
+    private Map<MenuItemModel, Integer> getBookingMenuItems() {
+        Map<MenuItemModel, Integer> bookingMenuItems = new HashMap<>();
+
+        DefaultTableModel model = (DefaultTableModel)tblBookingMenuItems.getModel();
+        for (int row = 0; row < model.getRowCount(); row++) {
+            int amount = (int) model.getValueAt(row, 3);
+            
+            String category = (String) model.getValueAt(row, 1);
+            String name = (String) model.getValueAt(row, 2);
+
+            MenuItemModel menuItem = menuItemController.getMenuItemByDisplayText(category + " - " + name);
+            if (menuItem == null) {
+                continue;
+            }
+            bookingMenuItems.put(menuItem, amount);
+        }
+
+        return bookingMenuItems;
+    }
+    
+    private Boolean bookingMenuItemAlreadyExists(MenuItemModel selectedMenuItem) {
+        DefaultTableModel model = (DefaultTableModel)tblBookingMenuItems.getModel();
+        int categoryColumnIndex = 1;
+        int nameColumnIndex = 2;
+        for (int row = 0; row < model.getRowCount(); row++) {
+            Object categoryValue = model.getValueAt(row, categoryColumnIndex);
+            Object nameValue = model.getValueAt(row, nameColumnIndex);
+
+            if (nameValue.equals(selectedMenuItem.getName()) && categoryValue.equals(selectedMenuItem.getCategoryType())) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     /**
      * @param args the command line arguments

@@ -17,13 +17,24 @@ import prg371.project.bookings.business.services.EventTypeService;
  */
 public class EventTypeController {
     private final EventTypeService eventTypeService;
+    private List<EventTypeModel> eventTypes;
     
     public EventTypeController() {
         eventTypeService = new EventTypeService();
     }
     
+    public EventTypeModel getEventTypeByDescription(String description) {
+        for (EventTypeModel eventType : eventTypes) {
+            if (description.equals(eventType.getDescription())) {
+                return eventType;
+            }
+        }
+        return null;
+    }
+    
     public List<EventTypeModel> loadEventTypes() {
-        return eventTypeService.getEventTypes();
+        eventTypes = eventTypeService.getEventTypes();
+        return eventTypes;
     }
     
     public Boolean addEventType(String desc, String amountString) {
