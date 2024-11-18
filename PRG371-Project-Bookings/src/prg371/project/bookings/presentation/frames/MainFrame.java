@@ -5,7 +5,6 @@
 package prg371.project.bookings.presentation.frames;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -48,10 +47,13 @@ public class MainFrame extends javax.swing.JFrame {
             for (MenuItemCategoryTypes type : MenuItemCategoryTypes.values()) {
                 cmbMenuItemCategoryType.addItem(type.getDescription());
             }
+            
+            btnBookingConfirm.setEnabled(true);
         } else {
             MainTabs.remove(tabEventTypes);
             MainTabs.remove(tabMenuItems);
             MainTabs.remove(tabLinkMenuItemsToEventTypes);
+            btnBookingConfirm.setEnabled(false);
         }
         
         loadBookings();
@@ -95,9 +97,10 @@ public class MainFrame extends javax.swing.JFrame {
         tblBookings = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         btnBookingUpdate = new javax.swing.JButton();
-        btnBookingRemove1 = new javax.swing.JButton();
-        pnlBookingDetails = new javax.swing.JPanel();
         btnBookingRemove = new javax.swing.JButton();
+        btnBookingConfirm = new javax.swing.JButton();
+        pnlBookingDetails = new javax.swing.JPanel();
+        btnBookingReset = new javax.swing.JButton();
         btnBookingAdd = new javax.swing.JButton();
         lblBookingDecorateOptIn = new javax.swing.JLabel();
         lblBookingEventDate = new javax.swing.JLabel();
@@ -300,11 +303,23 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setText("Current Bookings");
 
         btnBookingUpdate.setText("Update Booking");
-
-        btnBookingRemove1.setText("Cancel Booking");
-        btnBookingRemove1.addActionListener(new java.awt.event.ActionListener() {
+        btnBookingUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBookingRemove1ActionPerformed(evt);
+                btnBookingUpdateActionPerformed(evt);
+            }
+        });
+
+        btnBookingRemove.setText("Cancel Booking");
+        btnBookingRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingRemoveActionPerformed(evt);
+            }
+        });
+
+        btnBookingConfirm.setText("Confirm Booking");
+        btnBookingConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingConfirmActionPerformed(evt);
             }
         });
 
@@ -326,7 +341,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnBookingUpdate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnBookingRemove1)
+                .addComponent(btnBookingConfirm)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBookingRemove)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -337,16 +354,17 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBookingUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBookingRemove1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBookingRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBookingConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnBookingRemove.setText("Reset Booking");
-        btnBookingRemove.addActionListener(new java.awt.event.ActionListener() {
+        btnBookingReset.setText("Reset Booking");
+        btnBookingReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBookingRemoveActionPerformed(evt);
+                btnBookingResetActionPerformed(evt);
             }
         });
 
@@ -397,7 +415,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
                         .addComponent(btnBookingAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBookingRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBookingReset, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
                         .addComponent(lblBookingEventType)
                         .addGap(18, 18, 18)
@@ -461,7 +479,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(110, 110, 110)
                         .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnBookingAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBookingRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnBookingReset, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlBookingDetailsLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addGroup(pnlBookingDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1100,9 +1118,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblBookingsMouseClicked
 
-    private void btnBookingRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingRemoveActionPerformed
+    private void btnBookingResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingResetActionPerformed
         clearBookingInputs();
-    }//GEN-LAST:event_btnBookingRemoveActionPerformed
+    }//GEN-LAST:event_btnBookingResetActionPerformed
 
     private void btnBookingAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingAddMenuItemActionPerformed
         String selectedMenuItemDesc = cmbBookingMenuItem.getSelectedItem().toString();
@@ -1251,18 +1269,28 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBookingRemoveMenuItemActionPerformed
 
-    private void btnBookingRemove1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingRemove1ActionPerformed
+    private void btnBookingRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingRemoveActionPerformed
         int selectedRow = tblBookings.getSelectedRow();
         if (selectedRow != -1) {
             int id = (int)tblBookings.getValueAt(selectedRow, 0);
-            if (bookingController.deleteBooking(id)) {
-                clearBookingInputs();
-                loadBookings();
+            int confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to cancel the booking with ID: " + id + "?",
+                "Confirm Cancellation",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+                
+            if (confirmation == JOptionPane.YES_OPTION) {
+                if (bookingController.deleteBooking(id)) {
+                    clearBookingInputs();
+                    loadBookings();
+                }
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please select a row to remove");
         }
-    }//GEN-LAST:event_btnBookingRemove1ActionPerformed
+    }//GEN-LAST:event_btnBookingRemoveActionPerformed
 
     private void btnBookingAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingAddActionPerformed
         if (cmbBookingEventType.getSelectedItem() == null) {
@@ -1289,6 +1317,67 @@ public class MainFrame extends javax.swing.JFrame {
             loadBookings();
         }
     }//GEN-LAST:event_btnBookingAddActionPerformed
+
+    private void btnBookingUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingUpdateActionPerformed
+        int selectedRow = tblBookings.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int)tblBookings.getValueAt(selectedRow, 0);
+            if (cmbBookingEventType.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(this, "Please select a Event Type");
+                return;
+            }
+            EventTypeModel eventType = eventTypeController.getEventTypeByDescription(cmbBookingEventType.getSelectedItem().toString());
+            Boolean decorationOptIn = ckbBookingDecorationOptIn.isSelected();
+            java.util.Date eventDate = dtcBookingEventDate.getDate();
+            String venueAddress = txtBookingVenueAddress.getText();
+            String adults = txtBookingAdultCount.getText();
+            String children = txtBookingChildCount.getText();
+            
+            if (bookingController.updateBooking(
+                id,
+                eventType.getId(),
+                decorationOptIn,
+                eventDate,
+                venueAddress,
+                adults,
+                children,
+                getBookingMenuItems()
+            )) {
+                clearBookingInputs();
+                loadBookings();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to update");
+        }
+    }//GEN-LAST:event_btnBookingUpdateActionPerformed
+
+    private void btnBookingConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingConfirmActionPerformed
+        int selectedRow = tblBookings.getSelectedRow();
+        if (selectedRow != -1) {
+            if (BookingStatusTypes.fromDescription(tblBookings.getValueAt(selectedRow, 2).toString()) == BookingStatusTypes.Cancelled) {
+                JOptionPane.showMessageDialog(this, "This booking has already been cancelled and cannot be confirmed");
+                return;
+            }
+            
+            int id = (int)tblBookings.getValueAt(selectedRow, 0);
+            int confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to confirm this booking with ID: " + id + "?",
+                "Confirm Cancellation",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+                
+            if (confirmation == JOptionPane.YES_OPTION) {
+                if (bookingController.confirmBooking(id)) {
+                    clearBookingInputs();
+                    loadBookings();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to remove");
+        }
+    }//GEN-LAST:event_btnBookingConfirmActionPerformed
 
     private void clearEventInputs() {
         txtEventDescription.setText("");
@@ -1504,9 +1593,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddMenuItem;
     private javax.swing.JButton btnBookingAdd;
     private javax.swing.JButton btnBookingAddMenuItem;
+    private javax.swing.JButton btnBookingConfirm;
     private javax.swing.JButton btnBookingRemove;
-    private javax.swing.JButton btnBookingRemove1;
     private javax.swing.JButton btnBookingRemoveMenuItem;
+    private javax.swing.JButton btnBookingReset;
     private javax.swing.JButton btnBookingUpdate;
     private javax.swing.JButton btnBookingUpdateMenuItem;
     private javax.swing.JButton btnLogout;

@@ -119,7 +119,7 @@ public class BookingRepository {
 
     public boolean updateBooking(BookingModel booking) {
         String bookingQuery = "UPDATE Bookings SET EventTypeId = ?, DecorateOptIn = ?, EventDate = ?, " +
-                    "VenueAddress = ?, Adults = ?, Children = ?, Status = ?, LastUpdateDate = ?, UserId = ?," +
+                    "VenueAddress = ?, Adults = ?, Children = ?, LastUpdateDate = ?, UserId = ?," +
                     " CalculatedPrice = ? WHERE Id = ?";
         
         String deleteLinkedMenuItemsQuery = "DELETE FROM BookingMenuItems WHERE BookingId = ?";
@@ -138,11 +138,10 @@ public class BookingRepository {
                 bookingStatement.setString(4, booking.getVenueAddress());
                 bookingStatement.setInt(5, booking.getAdultCount());
                 bookingStatement.setInt(6, booking.getChildCount());
-                bookingStatement.setInt(7, booking.getStatus().getKey());
-                bookingStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-                bookingStatement.setInt(9, booking.getUserId());
-                bookingStatement.setDouble(10, booking.getCalculatedPrice());
-                bookingStatement.setInt(11, booking.getId());
+                bookingStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+                bookingStatement.setInt(8, booking.getUserId());
+                bookingStatement.setDouble(9, booking.getCalculatedPrice());
+                bookingStatement.setInt(10, booking.getId());
                 
                 int affectedRows = bookingStatement.executeUpdate();
                 if (affectedRows == 0) {
@@ -155,14 +154,16 @@ public class BookingRepository {
                 deleteMenuItemsStatement.executeUpdate();
             }
             
-            try (PreparedStatement insertLinkedMenuItemsStatement = connection.prepareStatement(insertLinkedMenuItemsQuery)) {
-                for (Map.Entry<MenuItemModel, Integer> item : booking.getLinkedMenuItems().entrySet()) {
-                    insertLinkedMenuItemsStatement.setInt(1, booking.getId());
-                    insertLinkedMenuItemsStatement.setInt(2, item.getKey().getId());
-                    insertLinkedMenuItemsStatement.setInt(3, item.getValue());
-                    insertLinkedMenuItemsStatement.addBatch();
+            if (booking.getLinkedMenuItems() != null) {
+                try (PreparedStatement insertLinkedMenuItemsStatement = connection.prepareStatement(insertLinkedMenuItemsQuery)) {
+                    for (Map.Entry<MenuItemModel, Integer> item : booking.getLinkedMenuItems().entrySet()) {
+                        insertLinkedMenuItemsStatement.setInt(1, booking.getId());
+                        insertLinkedMenuItemsStatement.setInt(2, item.getKey().getId());
+                        insertLinkedMenuItemsStatement.setInt(3, item.getValue());
+                        insertLinkedMenuItemsStatement.addBatch();
+                    }
+                    insertLinkedMenuItemsStatement.executeBatch();
                 }
-                insertLinkedMenuItemsStatement.executeBatch();
             }
             
             connection.commit();
@@ -190,6 +191,22 @@ public class BookingRepository {
 
     public boolean removeBooking(int bookingId) {
         String query = "UPDATE Bookings SET Status = 3 WHERE Id = ?";
+
+        try (Connection connection = ConnectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, bookingId);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean confirmBooking(int bookingId) {
+        String query = "UPDATE Bookings SET Status = 2 WHERE Id = ?";
 
         try (Connection connection = ConnectionProvider.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {

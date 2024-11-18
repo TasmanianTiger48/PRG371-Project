@@ -320,7 +320,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnBookingUpdate" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="btnBookingRemove1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBookingConfirm" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="btnBookingRemove" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -333,7 +335,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnBookingUpdate" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="btnBookingRemove1" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="btnBookingRemove" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="btnBookingConfirm" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jScrollPane4" min="-2" pref="333" max="-2" attributes="0"/>
@@ -437,13 +440,24 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Update Booking"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingUpdateActionPerformed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnBookingRemove1">
+                <Component class="javax.swing.JButton" name="btnBookingRemove">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cancel Booking"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingRemove1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingRemoveActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnBookingConfirm">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Confirm Booking"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingConfirmActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -459,7 +473,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnBookingAdd" min="-2" pref="112" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="btnBookingRemove" min="-2" pref="114" max="-2" attributes="0"/>
+                                  <Component id="btnBookingReset" min="-2" pref="114" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lblBookingEventType" min="-2" max="-2" attributes="0"/>
@@ -544,7 +558,7 @@
                                   <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="btnBookingAdd" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                      <Component id="btnBookingRemove" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                      <Component id="btnBookingReset" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -575,12 +589,12 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="btnBookingRemove">
+                <Component class="javax.swing.JButton" name="btnBookingReset">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Reset Booking"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingRemoveActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookingResetActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnBookingAdd">

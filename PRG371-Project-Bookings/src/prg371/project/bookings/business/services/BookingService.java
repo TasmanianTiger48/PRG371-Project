@@ -38,6 +38,10 @@ public class BookingService {
         return bookingRepository.removeBooking(id);
     }
     
+    public boolean confirmBooking(int id) {
+        return bookingRepository.confirmBooking(id);
+    }
+    
     public List<BookingModel> getBookings() {
         if (Main.currentUser.getType() == UserTypes.Admin) {
             return bookingRepository.getAllBookings();

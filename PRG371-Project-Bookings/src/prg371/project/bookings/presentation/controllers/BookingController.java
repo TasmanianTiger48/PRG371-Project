@@ -89,14 +89,14 @@ public class BookingController {
         }
     }
     
-    public Boolean updateBooking(int id, int eventTypeId, String decorateOptInString, LocalDate eventDate, 
-        String venueAddress, int adultCount, int childCount, int status, String priceString, int userId,
-        Map<MenuItemModel, Integer> menuItems
+    public Boolean updateBooking(int id, int eventTypeId, boolean decorateOptIn, Date eventDate, 
+        String venueAddress, String adultCountString, String childCountString, Map<MenuItemModel, Integer> menuItems
     ) {
         try {
-            return updateBooking(id, eventTypeId, Boolean.parseBoolean(decorateOptInString), 
-                eventDate, venueAddress, adultCount, childCount, BookingStatusTypes.fromKey(status),
-                Double.parseDouble(priceString), userId, menuItems);
+            return updateBooking(id, eventTypeId, decorateOptIn, 
+                FrameUtils.convertToLocalDate(eventDate), venueAddress,
+                Integer.parseInt(adultCountString), Integer.parseInt(childCountString),
+                menuItems);
         }
         catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Please enter valid numeric values for adults and children");
@@ -106,24 +106,30 @@ public class BookingController {
 
     public Boolean updateBooking(int id, int eventTypeId, boolean decorateOptIn,
         LocalDate eventDate, String venueAddress, int adults, int children,
-        BookingStatusTypes status, Double price, int userId, Map<MenuItemModel, Integer> menuItems
+        Map<MenuItemModel, Integer> menuItems
     ) {
-        BookingModel booking = new BookingModel(id, eventTypeId, decorateOptIn,
+        BookingModel booking = new BookingModel(eventTypeId, decorateOptIn,
             eventDate, venueAddress, adults, children,
-            status, null, null, userId, price, menuItems);
-
+            Main.currentUser.getUserId(), menuItems);
+        booking.setId(id);
+        
         String message = booking.validate();
 
         if (message != null) {
             JOptionPane.showMessageDialog(null, message);
             return false;
         }
-
-        if (bookingService.updateBooking(booking)) {
-            JOptionPane.showMessageDialog(null, "Booking updated successfully");
-            return true;
+        BookingModel existingBooking = bookingService.getBookingByDate(booking.getEventDate());
+        if (existingBooking == null || existingBooking.getId() == id) {
+            if (bookingService.updateBooking(booking)) {
+                JOptionPane.showMessageDialog(null, "Booking created successfully");
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to create booking");
+                return false;
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Failed to update booking");
+            JOptionPane.showMessageDialog(null, "Already another booking on that date");
             return false;
         }
     }
@@ -134,6 +140,16 @@ public class BookingController {
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Failed to cancel Booking");
+            return false;
+        }
+    }
+    
+    public Boolean confirmBooking(int id) {
+        if (bookingService.confirmBooking(id)) {
+            JOptionPane.showMessageDialog(null, "Booking confirmed");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to confirm Booking");
             return false;
         }
     }
