@@ -179,7 +179,7 @@ public class ConnectionProvider {
         );
         
         UserRepository userRepository = new UserRepository();
-        userRepository.addUser(new UserModel("a", "a", "0000000000", "a", "a", UserTypes.Admin));
+        userRepository.addUser(new UserModel("admin", "admin", "0000000000", "admin", "admin", UserTypes.Admin));
         
         executeSQLQuery(
             "INSERT INTO Bookings (EventTypeId, DecorateOptIn, EventDate, VenueAddress, Adults, Children, Status, UserId, CalculatedPrice) VALUES " +
