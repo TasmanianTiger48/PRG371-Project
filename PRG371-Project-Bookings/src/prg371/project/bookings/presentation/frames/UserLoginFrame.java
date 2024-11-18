@@ -47,6 +47,12 @@ public class UserLoginFrame extends javax.swing.JFrame {
         txtRegisterPassword = new javax.swing.JTextField();
         btnRegister = new javax.swing.JButton();
         btnToLogin = new javax.swing.JButton();
+        lblRegisterName = new javax.swing.JLabel();
+        txtRegisterName = new javax.swing.JTextField();
+        lblRegisterSurname = new javax.swing.JLabel();
+        txtRegisterSurname = new javax.swing.JTextField();
+        lblRegisterContactNumber = new javax.swing.JLabel();
+        txtRegisterContactNumber = new javax.swing.JTextField();
         tabExit = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -94,7 +100,7 @@ public class UserLoginFrame extends javax.swing.JFrame {
                         .addGroup(tabLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtLoginEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtLoginPassword))))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         tabLoginLayout.setVerticalGroup(
             tabLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,7 +117,7 @@ public class UserLoginFrame extends javax.swing.JFrame {
                 .addGroup(tabLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnToRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         tpUserLogin.addTab("Login", tabLogin);
@@ -142,33 +148,48 @@ public class UserLoginFrame extends javax.swing.JFrame {
             }
         });
 
+        lblRegisterName.setText("Name:");
+
+        lblRegisterSurname.setText("Surname:");
+
+        lblRegisterContactNumber.setText("Contact Number:");
+
         javax.swing.GroupLayout tabRegisterLayout = new javax.swing.GroupLayout(tabRegister);
         tabRegister.setLayout(tabRegisterLayout);
         tabRegisterLayout.setHorizontalGroup(
             tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabRegisterLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(tabRegisterLayout.createSequentialGroup()
-                        .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnToLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(tabRegisterLayout.createSequentialGroup()
-                        .addComponent(lblRegisterConfirmPassword)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtRegisterConfirmPassword))
-                    .addGroup(tabRegisterLayout.createSequentialGroup()
-                        .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblRegisterEmail)
-                            .addComponent(lblRegisterPassword))
-                        .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(tabRegisterLayout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(txtRegisterEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabRegisterLayout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(txtRegisterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblRegisterContactNumber)
+                    .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(tabRegisterLayout.createSequentialGroup()
+                            .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnToLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(tabRegisterLayout.createSequentialGroup()
+                            .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblRegisterEmail)
+                                .addComponent(lblRegisterPassword))
+                            .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(tabRegisterLayout.createSequentialGroup()
+                                    .addGap(66, 66, 66)
+                                    .addComponent(txtRegisterEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabRegisterLayout.createSequentialGroup()
+                                    .addGap(65, 65, 65)
+                                    .addComponent(txtRegisterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(tabRegisterLayout.createSequentialGroup()
+                            .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblRegisterConfirmPassword)
+                                .addComponent(lblRegisterName))
+                            .addGap(18, 18, 18)
+                            .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtRegisterName)
+                                .addComponent(txtRegisterConfirmPassword)
+                                .addComponent(txtRegisterSurname, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtRegisterContactNumber, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addComponent(lblRegisterSurname))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tabRegisterLayout.setVerticalGroup(
             tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,10 +207,22 @@ public class UserLoginFrame extends javax.swing.JFrame {
                     .addComponent(lblRegisterConfirmPassword)
                     .addComponent(txtRegisterConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRegisterName)
+                    .addComponent(txtRegisterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRegisterSurname)
+                    .addComponent(txtRegisterSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRegisterContactNumber)
+                    .addComponent(txtRegisterContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(tabRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(btnToLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnToLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tpUserLogin.addTab("Register", tabRegister);
@@ -198,11 +231,11 @@ public class UserLoginFrame extends javax.swing.JFrame {
         tabExit.setLayout(tabExitLayout);
         tabExitLayout.setHorizontalGroup(
             tabExitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGap(0, 317, Short.MAX_VALUE)
         );
         tabExitLayout.setVerticalGroup(
             tabExitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 253, Short.MAX_VALUE)
+            .addGap(0, 315, Short.MAX_VALUE)
         );
 
         tpUserLogin.addTab("Exit", tabExit);
@@ -213,14 +246,14 @@ public class UserLoginFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tpUserLogin)
-                .addContainerGap())
+                .addComponent(tpUserLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tpUserLogin)
+                .addComponent(tpUserLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -248,7 +281,9 @@ public class UserLoginFrame extends javax.swing.JFrame {
             txtRegisterEmail.getText(),
             txtRegisterPassword.getText(),
             txtRegisterConfirmPassword.getText(),
-            "Test"
+            txtRegisterName.getText(),
+            txtRegisterSurname.getText(),
+            txtRegisterContactNumber.getText()
         )) {
             tpUserLogin.setSelectedIndex(0);
         }
@@ -307,8 +342,11 @@ public class UserLoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblLoginEmail;
     private javax.swing.JLabel lblLoginPassword;
     private javax.swing.JLabel lblRegisterConfirmPassword;
+    private javax.swing.JLabel lblRegisterContactNumber;
     private javax.swing.JLabel lblRegisterEmail;
+    private javax.swing.JLabel lblRegisterName;
     private javax.swing.JLabel lblRegisterPassword;
+    private javax.swing.JLabel lblRegisterSurname;
     private javax.swing.JPanel tabExit;
     private javax.swing.JPanel tabLogin;
     private javax.swing.JPanel tabRegister;
@@ -316,7 +354,10 @@ public class UserLoginFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtLoginEmail;
     private javax.swing.JTextField txtLoginPassword;
     private javax.swing.JTextField txtRegisterConfirmPassword;
+    private javax.swing.JTextField txtRegisterContactNumber;
     private javax.swing.JTextField txtRegisterEmail;
+    private javax.swing.JTextField txtRegisterName;
     private javax.swing.JTextField txtRegisterPassword;
+    private javax.swing.JTextField txtRegisterSurname;
     // End of variables declaration//GEN-END:variables
 }

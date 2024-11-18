@@ -25,9 +25,9 @@ public class UserController {
         this.userService = new UserService();
     }
 
-    public Boolean handleRegister(String email, String password, String confirmPassword, String name) {
+    public Boolean handleRegister(String email, String password, String confirmPassword, String name, String surname, String contactNumber) {
         
-        if (name == null || name.isEmpty() || email == null || email.isEmpty() || password == null || password.isEmpty()) {
+        if (password == null || password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter all required fields");
             return false;
         }
@@ -36,8 +36,14 @@ public class UserController {
             JOptionPane.showMessageDialog(null, "Password and Confirm Password need to match");
             return false;
         }
-
-        UserModel user = new UserModel(name, email, password, UserTypes.Standard);
+        
+        UserModel user = new UserModel(name, surname, contactNumber, email, password, UserTypes.Standard);
+        
+        String message = user.validate();
+        if (message != null) {
+            JOptionPane.showMessageDialog(null, message);
+            return false;
+        }
 
         if (userService.register(user)) {
             JOptionPane.showMessageDialog(null, "Registration successful");
@@ -49,7 +55,7 @@ public class UserController {
     }
     
     public void handleLogin(JFrame loginFrame, String email, String password) {
-
+        
         if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter password and email");
             return;

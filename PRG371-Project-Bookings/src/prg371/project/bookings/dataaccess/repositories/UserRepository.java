@@ -23,16 +23,18 @@ import prg371.project.bookings.dataaccess.ConnectionProvider;
  */
 public class UserRepository {
     public boolean addUser(UserModel user) {
-        String query = "INSERT INTO Users (Name, Email, PasswordHash, CreatedAt, Type) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Users (Name, Surname, ContactNumber, Email, PasswordHash, CreatedAt, Type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionProvider.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, user.getName());
-            statement.setString(2, user.getEmail());
-            statement.setBytes(3, user.getPasswordHash());
-            statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
-            statement.setInt(5, user.getType().getKey());
+            statement.setString(2, user.getSurname());
+            statement.setString(3, user.getContactNumber());
+            statement.setString(4, user.getEmail());
+            statement.setBytes(5, user.getPasswordHash());
+            statement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            statement.setInt(7, user.getType().getKey());
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
@@ -66,13 +68,15 @@ public class UserRepository {
     private UserModel mapRowToUser(ResultSet resultSet) throws SQLException {
         int userId = resultSet.getInt("Id");
         String username = resultSet.getString("Name");
+        String surname = resultSet.getString("Surname");
+        String contactNumber = resultSet.getString("ContactNumber");
         String email = resultSet.getString("Email");
         byte[] passwordHash = resultSet.getBytes("PasswordHash");
         Timestamp createdAtTimestamp = resultSet.getTimestamp("CreatedAt");
         LocalDateTime createdAt = createdAtTimestamp.toLocalDateTime();
         UserTypes type = UserTypes.fromKey(resultSet.getInt("Type"));
 
-        return new UserModel(userId, username, email, passwordHash, createdAt, type);
+        return new UserModel(userId, username, surname, contactNumber, email, passwordHash, createdAt, type);
     }
     
     public UserModel getUserByEmail(String email) {

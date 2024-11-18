@@ -60,6 +60,8 @@ public class ConnectionProvider {
             "CREATE TABLE Users (" +
                 "Id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, " +
                 "Name VARCHAR(50) NOT NULL, " +
+                "Surname VARCHAR(50) NOT NULL, " +
+                "ContactNumber VARCHAR(10) NOT NULL, " +
                 "Email VARCHAR(100) NOT NULL, " +
                 "PasswordHash BLOB, " +
                 "CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
@@ -164,7 +166,7 @@ public class ConnectionProvider {
         );
         
         UserRepository userRepository = new UserRepository();
-        userRepository.addUser(new UserModel("a", "a", "a", UserTypes.Admin));
+        userRepository.addUser(new UserModel("a", "a", "0000000000", "a", "a", UserTypes.Admin));
     }
     
     private void executeSQLQuery(String query) {
