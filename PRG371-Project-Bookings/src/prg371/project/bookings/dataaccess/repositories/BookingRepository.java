@@ -21,10 +21,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import prg371.project.bookings.business.enums.BookingStatusTypes;
 import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
+import prg371.project.bookings.business.enums.NotificationTypes;
 import prg371.project.bookings.business.models.BookingModel;
 import prg371.project.bookings.business.models.EventTypeModel;
 import prg371.project.bookings.business.models.MenuItemModel;
 import prg371.project.bookings.business.models.UserModel;
+import prg371.project.bookings.business.services.NotificationService;
 import prg371.project.bookings.dataaccess.ConnectionProvider;
 
 
@@ -33,7 +35,7 @@ import prg371.project.bookings.dataaccess.ConnectionProvider;
  * @author User
  */
 public class BookingRepository {
-    
+    private final NotificationService notificationService = new NotificationService();
     private final String queryAllBookingData = "SELECT b.Id AS BookingId, b.EventTypeId, b.DecorateOptIn, b.EventDate, b.VenueAddress, " +
                 "b.Adults, b.Children, b.Status, b.CreatedDate, b.LastUpdateDate, b.UserId, b.CalculatedPrice, " +
                 "u.Id AS UserId, u.Name AS UserName, u.Email AS UserEmail, u.Type AS UserType, " +
@@ -86,17 +88,21 @@ public class BookingRepository {
                 }
             }
             
-            try (PreparedStatement menuItemsStatement = connection.prepareStatement(linkedMenuItemsQuery)) {
-                for ( Map.Entry<MenuItemModel, Integer> item : booking.getLinkedMenuItems().entrySet()) {
-                    menuItemsStatement.setInt(1, bookingId);
-                    menuItemsStatement.setInt(2, item.getKey().getId());
-                    menuItemsStatement.setInt(3, item.getValue());
-                    menuItemsStatement.addBatch();
+            if (booking.getLinkedMenuItems() != null) {
+                try (PreparedStatement menuItemsStatement = connection.prepareStatement(linkedMenuItemsQuery)) {
+                    for ( Map.Entry<MenuItemModel, Integer> item : booking.getLinkedMenuItems().entrySet()) {
+                        menuItemsStatement.setInt(1, bookingId);
+                        menuItemsStatement.setInt(2, item.getKey().getId());
+                        menuItemsStatement.setInt(3, item.getValue());
+                        menuItemsStatement.addBatch();
+                    }
+                    menuItemsStatement.executeBatch();
                 }
-                menuItemsStatement.executeBatch();
             }
             
+            
             connection.commit();
+            notificationService.createNotification(bookingId, NotificationTypes.BookingConfirmationRequired);
             return true;
         } catch (SQLException ex) {
             ex.printStackTrace();

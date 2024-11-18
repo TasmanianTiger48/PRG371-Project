@@ -9,6 +9,7 @@ package prg371.project.bookings.business.enums;
  * @author User
  */
 public enum BookingStatusTypes {
+    Creating(0, "Creating"),
     Pending(1, "Pending"),
     Confirmed(2, "Confirmed"),
     Cancelled(3, "Cancelled");

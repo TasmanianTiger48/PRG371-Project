@@ -49,6 +49,7 @@ public class ConnectionProvider {
     }
     
     public void generateDB() {
+        executeSQLQuery("DROP TABLE Notifications");
         executeSQLQuery("DROP TABLE BookingMenuItems");
         executeSQLQuery("DROP TABLE Bookings");
         executeSQLQuery("DROP TABLE Users");
@@ -128,6 +129,18 @@ public class ConnectionProvider {
                 "FOREIGN KEY (BookingId) REFERENCES Bookings(Id)" +
             ")"
         );
+        
+        executeSQLQuery(
+            "CREATE TABLE Notifications (" +
+                "Id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY," +
+                "BookingId INT NOT NULL," +
+                "Message VARCHAR(255)," +
+                "NotificationType INT NOT NULL," +
+                "DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                "Dismissed BOOLEAN NOT NULL," +
+                "FOREIGN KEY (BookingId) REFERENCES Bookings(Id)" +
+            ")"
+        );
     }
     
     public void seedDB() {
@@ -184,6 +197,13 @@ public class ConnectionProvider {
             "(3, 4, 25)"
         );
         
+        executeSQLQuery(
+            "INSERT INTO Notifications (BookingId, Message, NotificationType, Dismissed) VALUES " +
+                "(1, 'Booking has been confirmed.', 2, false)," +
+                "(1, 'Booking requires confirmation.', 4, false)," +
+                "(2, 'Menu items have been updated for your booking.', 1, false)," +
+                "(2, 'Booking has been confirmed.', 2, false)"
+        );
     }
     
     private void executeSQLQuery(String query) {

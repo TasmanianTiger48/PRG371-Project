@@ -12,13 +12,16 @@ import javax.swing.table.DefaultTableModel;
 import prg371.project.bookings.Main;
 import prg371.project.bookings.business.enums.BookingStatusTypes;
 import prg371.project.bookings.business.enums.MenuItemCategoryTypes;
+import prg371.project.bookings.business.enums.NotificationTypes;
 import prg371.project.bookings.business.enums.UserTypes;
 import prg371.project.bookings.business.models.BookingModel;
 import prg371.project.bookings.business.models.EventTypeModel;
 import prg371.project.bookings.business.models.MenuItemModel;
+import prg371.project.bookings.business.models.NotificationModel;
 import prg371.project.bookings.presentation.controllers.BookingController;
 import prg371.project.bookings.presentation.controllers.EventTypeController;
 import prg371.project.bookings.presentation.controllers.MenuItemController;
+import prg371.project.bookings.presentation.controllers.NotificationController;
 import prg371.project.bookings.presentation.controllers.UserController;
 import prg371.project.bookings.presentation.utilities.FrameUtils;
 
@@ -35,6 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
     private final EventTypeController eventTypeController = new EventTypeController();
     private final MenuItemController menuItemController = new MenuItemController();
     private final BookingController bookingController = new BookingController();
+    private final NotificationController notificationController = new NotificationController();
     
     public MainFrame() {
         initComponents();
@@ -57,7 +61,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         loadBookings();
+        loadBookingMenuItems(0, null);
         loadBookingEventTypes();
+        loadNotifications();
     }
 
     /**
@@ -118,6 +124,12 @@ public class MainFrame extends javax.swing.JFrame {
         txtBookingCalculatedPrice = new javax.swing.JTextField();
         txtBookingChildCount = new javax.swing.JTextField();
         txtBookingAdultCount = new javax.swing.JTextField();
+        tabNotifications = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tblNotifications = new javax.swing.JTable();
+        btnDismissNotification = new javax.swing.JButton();
+        lblNotifications = new javax.swing.JLabel();
+        btnNotificationRefresh = new javax.swing.JButton();
         tabEventTypes = new javax.swing.JPanel();
         lblEventDescription = new javax.swing.JLabel();
         lblEventAmount = new javax.swing.JLabel();
@@ -387,6 +399,11 @@ public class MainFrame extends javax.swing.JFrame {
                 cmbBookingEventTypeItemStateChanged(evt);
             }
         });
+        cmbBookingEventType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBookingEventTypeActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Booking Details");
@@ -527,6 +544,77 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         MainTabs.addTab("Bookings", tabBookings);
+
+        tblNotifications.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "NotificationId", "BookingId", "Message", "Type", "Date Created"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(tblNotifications);
+
+        btnDismissNotification.setText("Dismiss Notification");
+        btnDismissNotification.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDismissNotificationActionPerformed(evt);
+            }
+        });
+
+        lblNotifications.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblNotifications.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNotifications.setText("Notifications");
+
+        btnNotificationRefresh.setText("Refresh");
+        btnNotificationRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotificationRefreshActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout tabNotificationsLayout = new javax.swing.GroupLayout(tabNotifications);
+        tabNotifications.setLayout(tabNotificationsLayout);
+        tabNotificationsLayout.setHorizontalGroup(
+            tabNotificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabNotificationsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tabNotificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(tabNotificationsLayout.createSequentialGroup()
+                        .addGap(436, 436, 436)
+                        .addComponent(lblNotifications)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNotificationRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDismissNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 996, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+        tabNotificationsLayout.setVerticalGroup(
+            tabNotificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabNotificationsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tabNotificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDismissNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNotifications)
+                    .addComponent(btnNotificationRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(274, Short.MAX_VALUE))
+        );
+
+        MainTabs.addTab("Notifications", tabNotifications);
 
         lblEventDescription.setText("Description:");
 
@@ -722,33 +810,31 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(tabMenuItemsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1027, Short.MAX_VALUE)
+                    .addGroup(tabMenuItemsLayout.createSequentialGroup()
+                        .addComponent(lblMenuItemPrice)
+                        .addGap(66, 66, 66)
+                        .addComponent(txtMenuItemPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(tabMenuItemsLayout.createSequentialGroup()
                         .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(tabMenuItemsLayout.createSequentialGroup()
-                                .addComponent(btnResetMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAddMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnUpdateMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnRemoveMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(tabMenuItemsLayout.createSequentialGroup()
-                                .addComponent(lblMenuItemPrice)
-                                .addGap(66, 66, 66)
-                                .addComponent(txtMenuItemPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(tabMenuItemsLayout.createSequentialGroup()
-                                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblMenuItemName)
-                                    .addComponent(lblMenuItemDescription)
-                                    .addComponent(lblMenuItemCategoryType))
-                                .addGap(16, 16, 16)
-                                .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cmbMenuItemCategoryType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtMenuItemName)
-                                    .addComponent(txtMenuItemDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(lblMenuItemName)
+                            .addComponent(lblMenuItemDescription)
+                            .addComponent(lblMenuItemCategoryType))
+                        .addGap(16, 16, 16)
+                        .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbMenuItemCategoryType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtMenuItemName)
+                            .addComponent(txtMenuItemDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))))
+                .addContainerGap(592, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1039, Short.MAX_VALUE)
+            .addGroup(tabMenuItemsLayout.createSequentialGroup()
+                .addComponent(btnResetMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAddMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnUpdateMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRemoveMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         tabMenuItemsLayout.setVerticalGroup(
             tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -769,7 +855,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMenuItemPrice)
                     .addComponent(txtMenuItemPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(tabMenuItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdateMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -777,7 +863,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(btnResetMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(252, Short.MAX_VALUE))
         );
 
         MainTabs.addTab("Menu Items", tabMenuItems);
@@ -1091,6 +1177,8 @@ public class MainFrame extends javax.swing.JFrame {
         if (selectedComponent != null) {
             if (selectedComponent == btnLogout) {
                 userController.handleLogout(this);
+            } else if (selectedComponent == tabNotifications) {
+                loadNotifications();
             }
         }
     }//GEN-LAST:event_MainTabsStateChanged
@@ -1112,14 +1200,18 @@ public class MainFrame extends javax.swing.JFrame {
             txtBookingChildCount.setText(Integer.toString(booking.getChildCount()));
             txtBookingCalculatedPrice.setText(Double.toString(booking.getCalculatedPrice()));
             txtBookingVenueAddress.setText(booking.getVenueAddress());
-
+            
             //COLUMN 3
             loadBookingMenuItems(booking.getEventTypeId(), booking);
+            bookingController.setIsMenuItemsChanged(false);
+            
+            toggleBookingInputs(booking.getStatus());
         }
     }//GEN-LAST:event_tblBookingsMouseClicked
 
     private void btnBookingResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingResetActionPerformed
         clearBookingInputs();
+        toggleBookingInputs(BookingStatusTypes.Creating);
     }//GEN-LAST:event_btnBookingResetActionPerformed
 
     private void btnBookingAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingAddMenuItemActionPerformed
@@ -1156,7 +1248,7 @@ public class MainFrame extends javax.swing.JFrame {
                 model.addRow(
                     new Object[] {
                         null,
-                        selectedMenuItem.getCategoryType(),
+                        selectedMenuItem.getCategoryType().getDescription(),
                         selectedMenuItem.getName(),
                         selectedAmount,
                         null
@@ -1164,6 +1256,7 @@ public class MainFrame extends javax.swing.JFrame {
                 );
                 JOptionPane.showMessageDialog(this, "Menu Item added Successfully");
                 clearBookingMenuItemInputs();
+                bookingController.setIsMenuItemsChanged(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Menu Item Already Added");
             }
@@ -1173,15 +1266,6 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBookingAddMenuItemActionPerformed
 
     private void cmbBookingEventTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBookingEventTypeItemStateChanged
-        cmbBookingMenuItem.removeAllItems();
-        if (cmbBookingEventType.getSelectedItem() != null) {
-            EventTypeModel eventType = eventTypeController.getEventTypeByDescription(cmbBookingEventType.getSelectedItem().toString());
-            if (eventType != null) {
-                for (MenuItemModel item : menuItemController.loadMenuItemsByEventType(eventType.getId())) {
-                    cmbBookingMenuItem.addItem(item.getDisplayText());
-                }
-            }
-        }
         
     }//GEN-LAST:event_cmbBookingEventTypeItemStateChanged
 
@@ -1250,6 +1334,7 @@ public class MainFrame extends javax.swing.JFrame {
                 }
                 JOptionPane.showMessageDialog(this, "Menu Item Updated");
                 clearBookingMenuItemInputs();
+                bookingController.setIsMenuItemsChanged(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a valid Menu Item");
             }
@@ -1264,6 +1349,7 @@ public class MainFrame extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel)tblBookingMenuItems.getModel();
             model.removeRow(selectedRow);
             clearBookingMenuItemInputs();
+            bookingController.setIsMenuItemsChanged(true);
         } else {
             JOptionPane.showMessageDialog(this, "Please select a row to remove");
         }
@@ -1283,6 +1369,7 @@ public class MainFrame extends javax.swing.JFrame {
                 
             if (confirmation == JOptionPane.YES_OPTION) {
                 if (bookingController.deleteBooking(id)) {
+                    notificationController.handleCreateNotification(id, NotificationTypes.BookingCanceled);
                     clearBookingInputs();
                     loadBookings();
                 }
@@ -1343,6 +1430,10 @@ public class MainFrame extends javax.swing.JFrame {
                 children,
                 getBookingMenuItems()
             )) {
+                if (bookingController.IsMenuItemsChanged()) {
+                    notificationController.handleCreateNotification(id, NotificationTypes.MenuChanged);
+                }
+                    
                 clearBookingInputs();
                 loadBookings();
             }
@@ -1370,6 +1461,7 @@ public class MainFrame extends javax.swing.JFrame {
                 
             if (confirmation == JOptionPane.YES_OPTION) {
                 if (bookingController.confirmBooking(id)) {
+                    notificationController.handleCreateNotification(id, NotificationTypes.BookingConfirmed);
                     clearBookingInputs();
                     loadBookings();
                 }
@@ -1378,6 +1470,34 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select a row to remove");
         }
     }//GEN-LAST:event_btnBookingConfirmActionPerformed
+
+    private void btnDismissNotificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDismissNotificationActionPerformed
+        int selectedRow = tblNotifications.getSelectedRow();
+        if (selectedRow != -1) {
+            int notificationId = (int)tblNotifications.getValueAt(selectedRow, 0);
+            notificationController.handleDismissNotification(notificationId);
+            loadNotifications();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a notification to dismiss");
+        }
+    }//GEN-LAST:event_btnDismissNotificationActionPerformed
+
+    private void btnNotificationRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationRefreshActionPerformed
+        loadNotifications();
+    }//GEN-LAST:event_btnNotificationRefreshActionPerformed
+
+    private void cmbBookingEventTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBookingEventTypeActionPerformed
+        loadBookingMenuItems(0, null);
+        cmbBookingMenuItem.removeAllItems();
+        if (cmbBookingEventType.getSelectedItem() != null) {
+            EventTypeModel eventType = eventTypeController.getEventTypeByDescription(cmbBookingEventType.getSelectedItem().toString());
+            if (eventType != null) {
+                for (MenuItemModel item : menuItemController.loadMenuItemsByEventType(eventType.getId())) {
+                    cmbBookingMenuItem.addItem(item.getDisplayText());
+                }
+            }
+        }
+    }//GEN-LAST:event_cmbBookingEventTypeActionPerformed
 
     private void clearEventInputs() {
         txtEventDescription.setText("");
@@ -1452,6 +1572,68 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     
+    private void toggleBookingInputs(BookingStatusTypes type) {
+        switch (type) {
+            case BookingStatusTypes.Creating:
+            {
+                //COLUMN 1
+                cmbBookingEventType.setEnabled(true);
+                ckbBookingDecorationOptIn.setEnabled(true);
+                dtcBookingEventDate.setEnabled(true);
+
+                //COLUMN 2
+                txtBookingAdultCount.setEnabled(true);
+                txtBookingChildCount.setEnabled(true);
+                txtBookingCalculatedPrice.setEnabled(false);
+                txtBookingVenueAddress.setEnabled(true);
+                
+                //COLUMN 3
+                cmbBookingMenuItem.setEnabled(true);
+                txtBookingMenuItemAmount.setEnabled(true);
+            }
+            break;
+            case BookingStatusTypes.Pending:
+            {
+                //COLUMN 1
+                cmbBookingEventType.setEnabled(false);
+                ckbBookingDecorationOptIn.setEnabled(false);
+                dtcBookingEventDate.setEnabled(false);
+
+                //COLUMN 2
+                txtBookingAdultCount.setEnabled(false);
+                txtBookingChildCount.setEnabled(false);
+                txtBookingCalculatedPrice.setEnabled(false);
+                txtBookingVenueAddress.setEnabled(false);
+                
+                //COLUMN 3
+                cmbBookingMenuItem.setEnabled(true);
+                txtBookingMenuItemAmount.setEnabled(true);
+            }
+            break;
+            case BookingStatusTypes.Confirmed:
+            case BookingStatusTypes.Cancelled:
+            {
+                //COLUMN 1
+                cmbBookingEventType.setEnabled(false);
+                ckbBookingDecorationOptIn.setEnabled(false);
+                dtcBookingEventDate.setEnabled(false);
+
+                //COLUMN 2
+                txtBookingAdultCount.setEnabled(false);
+                txtBookingChildCount.setEnabled(false);
+                txtBookingCalculatedPrice.setEnabled(false);
+                txtBookingVenueAddress.setEnabled(false);
+                
+                //COLUMN 3
+                cmbBookingMenuItem.setEnabled(false);
+                txtBookingMenuItemAmount.setEnabled(false);
+            }
+            break;
+            default:
+                break;
+        }
+    }
+    
     private void clearBookingInputs() {
         //COLUMN 1
         cmbBookingEventType.setSelectedIndex(-1);
@@ -1515,6 +1697,22 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    private void loadNotifications() {
+        FrameUtils.clearTableRows(tblNotifications);
+        DefaultTableModel model = (DefaultTableModel)tblNotifications.getModel();
+        for (NotificationModel notification : notificationController.loadNotifications()) {
+            model.addRow(
+                new Object[] {
+                    notification.getId(),
+                    notification.getBookingId(),
+                    notification.getMessage(),
+                    notification.getNotificationType(),
+                    notification.getDateCreated(),
+                }
+            );
+        }
+    }
+    
     private Map<MenuItemModel, Integer> getBookingMenuItems() {
         Map<MenuItemModel, Integer> bookingMenuItems = new HashMap<>();
 
@@ -1543,7 +1741,9 @@ public class MainFrame extends javax.swing.JFrame {
             Object categoryValue = model.getValueAt(row, categoryColumnIndex);
             Object nameValue = model.getValueAt(row, nameColumnIndex);
 
-            if (nameValue.equals(selectedMenuItem.getName()) && categoryValue.equals(selectedMenuItem.getCategoryType())) {
+            if (nameValue != null && nameValue.equals(selectedMenuItem.getName())
+                && categoryValue != null && categoryValue.equals(selectedMenuItem.getCategoryType())
+            ) {
                 return true;
             }
         }
@@ -1599,7 +1799,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnBookingReset;
     private javax.swing.JButton btnBookingUpdate;
     private javax.swing.JButton btnBookingUpdateMenuItem;
+    private javax.swing.JButton btnDismissNotification;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnNotificationRefresh;
     private javax.swing.JButton btnRemoveEvent;
     private javax.swing.JButton btnRemoveLink;
     private javax.swing.JButton btnRemoveMenuItem;
@@ -1636,6 +1838,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JLabel lblBookingAdultCount;
     private javax.swing.JLabel lblBookingCalculatedPrice;
     private javax.swing.JLabel lblBookingChildCount;
@@ -1653,16 +1856,19 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblMenuItemDescription;
     private javax.swing.JLabel lblMenuItemName;
     private javax.swing.JLabel lblMenuItemPrice;
+    private javax.swing.JLabel lblNotifications;
     private javax.swing.JPanel pnlBookingDetails;
     private javax.swing.JPanel tabBookings;
     private javax.swing.JPanel tabEventTypes;
     private javax.swing.JPanel tabLinkMenuItemsToEventTypes;
     private javax.swing.JPanel tabMenuItems;
+    private javax.swing.JPanel tabNotifications;
     private javax.swing.JTable tblBookingMenuItems;
     private javax.swing.JTable tblBookings;
     private javax.swing.JTable tblEventTypeMenuItems;
     private javax.swing.JTable tblEventTypes;
     private javax.swing.JTable tblMenuItems;
+    private javax.swing.JTable tblNotifications;
     private javax.swing.JTextField txtBookingAdultCount;
     private javax.swing.JTextField txtBookingCalculatedPrice;
     private javax.swing.JTextField txtBookingChildCount;

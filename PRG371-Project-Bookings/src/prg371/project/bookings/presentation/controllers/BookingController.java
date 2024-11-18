@@ -25,6 +25,15 @@ public class BookingController {
     private final BookingService bookingService;
     private List<BookingModel> bookings;
     private BookingModel currentBooking;
+    private Boolean isMenuItemsChanged = false;
+
+    public void setIsMenuItemsChanged(Boolean isMenuItemsChanged) {
+        this.isMenuItemsChanged = isMenuItemsChanged;
+    }
+    
+    public Boolean IsMenuItemsChanged() {
+        return this.isMenuItemsChanged;
+    }
     
     public BookingController() {
         bookingService = new BookingService();
