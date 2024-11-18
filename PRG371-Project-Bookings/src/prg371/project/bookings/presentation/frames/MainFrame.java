@@ -83,8 +83,6 @@ public class MainFrame extends javax.swing.JFrame {
         buttonGroup6 = new javax.swing.ButtonGroup();
         buttonGroup7 = new javax.swing.ButtonGroup();
         buttonGroup8 = new javax.swing.ButtonGroup();
-        jCalModel1 = new com.jcalendar.model.JCalModel();
-        jCalModel2 = new com.jcalendar.model.JCalModel();
         MainTabs = new javax.swing.JTabbedPane();
         tabBookings = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -1825,8 +1823,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbLinkMenuItem;
     private javax.swing.JComboBox<String> cmbMenuItemCategoryType;
     private com.toedter.calendar.JDateChooser dtcBookingEventDate;
-    private com.jcalendar.model.JCalModel jCalModel1;
-    private com.jcalendar.model.JCalModel jCalModel2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
